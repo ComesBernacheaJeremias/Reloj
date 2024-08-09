@@ -36,6 +36,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.reloj.ui.theme.AddCategories
+import com.example.reloj.ui.theme.CategoriesCard
+import com.example.reloj.ui.theme.MiCarta
 import com.example.reloj.ui.theme.RelojTheme
 
 
@@ -72,102 +75,6 @@ fun ViewContainer() {
 }
 
 @Composable
-fun LazyRowContent() {
-    Log.i("Corcho", "Debería entrar en LazyRowContent")
-    LazyRow(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth() // Asegura que LazyRow ocupe todo el ancho disponible
-    ) {
-        // Usar item en lugar de items si solo hay un conjunto fijo de elementos
-        item {
-            Row { // Envolver en Row para alinear las tarjetas horizontalmente
-                Card(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .padding(end = 8.dp) // Añadir espaciado entre tarjetas
-                ) {
-                    Text(text = "Todos", modifier = Modifier.padding(8.dp))
-                }
-                Card(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .padding(end = 8.dp)
-                ) {
-                    Text(text = "Mañana", modifier = Modifier.padding(8.dp))
-                }
-                Card(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .padding(end = 8.dp)
-                ) {
-                    Text(text = "Nuevo", modifier = Modifier.padding(8.dp))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun CategoriesCard(title: String, text: String, value: Boolean) {
-    Card(
-        modifier = Modifier
-            .height(80.dp)
-            .width(120.dp),
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-
-            ) {
-            Column {
-
-                Box(modifier = Modifier.weight(1f),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = title, modifier = Modifier.fillMaxWidth(), fontSize = 20.sp,textAlign = TextAlign.Center )
-                }
-                Box(modifier = Modifier.weight(2f),contentAlignment = Alignment.Center) {
-                    Row (modifier = Modifier.fillMaxSize().align(Alignment.Center),
-                        ){
-
-                        Text(text = text, modifier = Modifier.align(Alignment.Bottom))
-                        val estado = value
-                        val checkedState = remember { mutableStateOf(estado) }
-                        val checked = checkedState.value
-                        Switch(
-                            checked = checkedState.value,
-                            onCheckedChange = { checkedState.value = it })
-                    }
-                }
-            }
-        }
-    }
-
-}
-
-
-@Composable
-fun MiCarta(texto: String, value: Boolean, modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
-        Text(text = texto)
-
-        val estado = value
-        Log.i("Corcho", "cambie un boton ${estado}, quiero saber que dice")
-        val checkedState = remember { mutableStateOf(estado) }
-        val checked = checkedState.value
-        Log.i("Corcho", "lo que aparece en checked es${checked}")
-        Switch(checked = checkedState.value, onCheckedChange = { checkedState.value = it })
-        if (checked) {
-            Log.i("Corcho", "el valor es verdadero, ${checked}")
-            LazyRowContent()
-        } else {
-            Log.i("Corcho", "el valor es falso ${checked}")
-        }
-    }
-}
-
-
-@Composable
 fun MiUI() {
     Column {
 
@@ -176,12 +83,28 @@ fun MiUI() {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Row {
-                CategoriesCard(title = "Todos", text = "Todos", value = false)
-                Spacer(modifier = Modifier.width(4.dp))
-                CategoriesCard(title = "Mañana", text = "Desactivado", value = false)
-                Spacer(modifier = Modifier.width(4.dp))
-                CategoriesCard(title = "Tarde", text = "Desactivado", value = false)
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+
+                item {
+
+                    CategoriesCard(title = "Todos", text = "Todos", value = false)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    CategoriesCard(title = "Mañana", text = "Desactivado", value = false)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    CategoriesCard(title = "Tarde", text = "Desactivado", value = false)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    CategoriesCard(title = "Noche", text = "Desactivado", value = false)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    CategoriesCard(title = "Escuela", text = "Desactivado", value = false)
+                    Spacer(modifier = Modifier.width(4.dp))
+
+                }
+                item {
+
+                    AddCategories()}
             }
 
         }
@@ -207,11 +130,12 @@ fun MiUI() {
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewLazyRowContent() {
     RelojTheme {
-
+        //esto no esta afectando. Pero podria utilizar en otro momento
     }
 }
 
