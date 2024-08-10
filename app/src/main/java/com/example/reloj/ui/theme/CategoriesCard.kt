@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -107,34 +105,9 @@ fun alertDialogDoc(openDialog: MutableState<Boolean>) {
         Dialog(
             onDismissRequest = {
                 openDialog.value = false
-            }) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(375.dp)
-                    .padding(16.dp),
-                shape = RoundedCornerShape(16.dp),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    TextField(
-                        value = text,
-                        onValueChange = { text = it },
-                        placeholder = { Text("Nombre") },
-                        label = { Text(text = "Nueva Categoria") },
-                        singleLine = true
-                    )
-                    Button(onClick = { AdderNewCategories(text = text) }) {
-                        Text("Add Category")
-                        
-                    }
-                }
+            }) {DialogCardAddCategories()
 
-            }
+
 
         }
     }
