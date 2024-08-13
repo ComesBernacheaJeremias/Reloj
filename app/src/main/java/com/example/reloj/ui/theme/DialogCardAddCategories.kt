@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.reloj.MiUI
 
 
 @Composable
@@ -114,7 +115,9 @@ fun DialogCardAddCategories(openDialog: MutableState<Boolean>) {
                         Text("Add Category")
                         if (addCategories) {
                             AdderNewCategories(text = text)
+                            MiUI(text = text)
                             addCategories = false
+                            openDialog.value = false
                         }
 
                     }

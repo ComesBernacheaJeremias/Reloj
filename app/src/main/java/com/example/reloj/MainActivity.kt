@@ -20,14 +20,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +46,10 @@ import com.example.reloj.ui.theme.RelojTheme
 
 
 class MainActivity : ComponentActivity() {
+
+    data class Item(val title: String, val description: String, val value: Boolean = false)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,19 +70,26 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+var nombre1 = "jeremias"
+
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
 fun ViewContainer() {
     Scaffold(
         content = {
-            MiUI()
+            MiUI(text = "")
         }
     )
 }
 
 @Composable
-fun MiUI() {
+fun MiUI(text: String) {
+    var lista by remember { mutableStateOf(listOf<String>()) }
+    var nombreTexto = text
+    Log.i("Corcho", "${nombreTexto}")
+
     Column {
 
         Box(
@@ -92,9 +106,10 @@ fun MiUI() {
 
                     CategoriesCard(title = "Todos", text = "Todos", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
-                    CategoriesCard(title = "Mañana", text = "Desactivado", value = false)
+
+                    CategoriesCard(title = nombre1, text = "Desactivado", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
-                    CategoriesCard(title = "Tarde", text = "Desactivado", value = false)
+                    CategoriesCard(title = "mañana", text = "Desactivado", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
                     CategoriesCard(title = "Noche", text = "Desactivado", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
@@ -103,8 +118,18 @@ fun MiUI() {
 
                 }
                 item {
+                    if (nombreTexto.isNotEmpty()) {
+                        CategoriesCard(title = nombreTexto, text = "salio", value = false)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Log.i("Corcho", "SIII funciono")
+                    }else{Log.i("Corcho", "No funciono")}
 
-                    AddCategories()}
+
+                }
+                item {
+
+                    AddCategories()
+                }
             }
 
         }
