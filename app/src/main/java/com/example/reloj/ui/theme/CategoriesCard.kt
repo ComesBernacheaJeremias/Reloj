@@ -67,63 +67,6 @@ fun CategoriesCard(title: String, text: String, value: Boolean) {
 
 }
 
-@Composable
-fun AddCategories() {
-
-    val openDialog = remember { mutableStateOf(false) }
-
-    Card(modifier = Modifier
-        .height(80.dp)
-        .width(150.dp)
-        .clickable { openDialog.value = true }
-
-    ) {
-        Box(modifier = Modifier.fillMaxSize(), Alignment.Center) {
-            Text(
-                text = "Agregar",
-                // modifier = Modifier.fillMaxSize(),
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-    // Muestra el diálogo si openDialog es true
-    if (openDialog.value) {
-        AlertDialogDoc(openDialog)
-
-    }
-}
-
-@Composable
-fun AlertDialogDoc(openDialog: MutableState<Boolean>) {
-    var text by rememberSaveable { mutableStateOf("") }
-
-
-    if (openDialog.value) {
-        Dialog(
-            onDismissRequest = {
-                openDialog.value = false
-
-
-            }) {
-            DialogCardAddCategories(openDialog)
-
-
-        }
-    }
-}
-
-
-@Composable
-fun AdderNewCategories(text: String) {
-    val texto = text
-    Log.i("Corcho", "lo que aparece en addernewcategories es ${texto}")
-
-}
-
-@Composable
-fun AllCategories() {
-
-}
 
 @Preview(showBackground = true)
 @Composable

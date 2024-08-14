@@ -38,12 +38,12 @@ import com.example.reloj.MiUI
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun DialogCardAddCategories(openDialog: MutableState<Boolean>) {
+fun DialogCardAddCategories(
+    openDialog: MutableState<Boolean>,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
     var text by rememberSaveable { mutableStateOf("") }
-    var addCategories by rememberSaveable { mutableStateOf(false) }
-
-
-
 
 
     Box() {
@@ -75,6 +75,7 @@ fun DialogCardAddCategories(openDialog: MutableState<Boolean>) {
                             IconButton(
                                 onClick = {
                                     openDialog.value = false
+                                    onDismiss()
 
 
                                 },
@@ -96,7 +97,11 @@ fun DialogCardAddCategories(openDialog: MutableState<Boolean>) {
 
 
                         Spacer(modifier = Modifier.height(20.dp))
-                        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth()
+                        ) {
 
 
                             TextField(
@@ -112,23 +117,16 @@ fun DialogCardAddCategories(openDialog: MutableState<Boolean>) {
                     }
                 }
                 Box(modifier = Modifier.weight(1f)) {
-                    Button(onClick = { addCategories = true }) {
+                    Button(onClick = {
+                        onConfirm()
+                    }) {
                         Text("Add Category")
-                        if (addCategories) {
-                            val textState = remember { mutableStateOf("${text}") }
-
-
-                            Log.i("Corcho", "TEXTSTATE es ${textState}")
-                            //AdderNewCategories(text = text)
-                            MiUI(text = textState)
-                            addCategories = false
-                            openDialog.value = false
-                        }
 
                     }
+
                 }
             }
-
         }
+
     }
 }

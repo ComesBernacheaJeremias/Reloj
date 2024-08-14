@@ -33,7 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.ui.theme.AddCategories
+import com.example.reloj.ui.theme.CartasViewModel
 import com.example.reloj.ui.theme.CategoriesCard
 import com.example.reloj.ui.theme.MiCarta
 import com.example.reloj.ui.theme.RelojTheme
@@ -71,7 +73,6 @@ var nombre1 = "jeremias"
 @Preview
 @Composable
 fun ViewContainer() {
-    val text = remember { mutableStateOf("") }
     Scaffold(
         content = {
             MiUI()
@@ -80,93 +81,21 @@ fun ViewContainer() {
 }
 
 @Composable
-fun MiUI(text: MutableState<String>? = null) {
-    val count by rememberUpdatedState(newValue = (text?.value))
-    nombre1 = count.toString()
+fun MiUI(cartasViewModel: CartasViewModel = viewModel()) {
 
-    var cartas by remember {
-        mutableStateOf(
-            listOf(
-                "Carta 1", "Carta 2"
-            ))
-    }
+    val cartas = cartasViewModel.cartas
 
     Column {
         LazyRow {
-            items(cartas){ carta ->
+            item {
+                CategoriesCard(title = "Todos", text = "Todos", value = false)
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+            items(cartas) { carta ->
                 CategoriesCard(title = carta, text = "Descripción", value = false)
                 Spacer(modifier = Modifier.width(4.dp))
             }
-        }
-
-        Button(onClick = {
-            cartas = cartas + "Nueva Carta" // Agrega una nueva carta a la lista
-        }) {
-            Text("Agregar Carta")
-        }
-    }
-
-
-    Log.i("Corcho", "entro en miUI y muestra ${text.toString()}...")
-    Log.i("Corcho", "entro en miUI y muestra ${text?.value}...")
-    Log.i("Corcho", "entro en miUI y muestra ${count}...")
-
-
-    Column {
-
-        Box(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        ) {
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-
-               /* item {
-
-                    CategoriesCard(title = "Todos", text = "Todos", value = false)
-                    Spacer(modifier = Modifier.width(4.dp))
-
-                    CategoriesCard(title = nombre1, text = "Desactivado", value = false)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    CategoriesCard(title = nombre1.toString(), text = "Desactivado", value = false)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    CategoriesCard(title = "Noche", text = "Desactivado", value = false)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    CategoriesCard(title = "Escuela", text = "Desactivado", value = false)
-                    Spacer(modifier = Modifier.width(4.dp))
-                }
-
-                item {
-                    if (nombre1 != null) {
-                        CategoriesCard(title = nombre1.toString(), text = "salio", value = false)
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Log.i(
-                            "Corcho",
-                            "SIII funciono NOmbre ${text.toString()}, ${text}, ${nombre1}"
-                        )
-                    } else {
-                        if (nombre1 != null) {
-                            Log.i(
-                                "Corcho",
-                                "No funciono  ${count}"
-                            )
-                        }
-                        Log.i("Corcho", "No funciono el valor es ${nombre1}")
-                    }
-
-
-                }
-
-                item {
-
-
-                    AddCategories()
-                }
-            }
-
+            item { AddCategories() }
         }
 
         Box(
@@ -184,7 +113,7 @@ fun MiUI(text: MutableState<String>? = null) {
                 MiCarta(texto = "Mañana", modifier = Modifier.fillMaxWidth(), value = false)
                 Spacer(modifier = Modifier.height(16.dp))
                 MiCarta(texto = "Nuevo", modifier = Modifier.fillMaxWidth(), value = false)
-*/                // Agrega más tarjetas según sea necesario
+                // Agrega más tarjetas según sea necesario
             }
         }
     }
@@ -198,6 +127,7 @@ fun PreviewLazyRowContent() {
         //esto no esta afectando. Pero podria utilizar en otro momento
     }
 }
+
 
 
 
