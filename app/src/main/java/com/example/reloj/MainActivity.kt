@@ -15,15 +15,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -77,12 +81,36 @@ fun ViewContainer() {
 
 @Composable
 fun MiUI(text: MutableState<String>? = null) {
-    val count by remember { mutableStateOf(text?.value) }
+    val count by rememberUpdatedState(newValue = (text?.value))
+    nombre1 = count.toString()
+
+    var cartas by remember {
+        mutableStateOf(
+            listOf(
+                "Carta 1", "Carta 2"
+            ))
+    }
+
+    Column {
+        LazyRow {
+            items(cartas){ carta ->
+                CategoriesCard(title = carta, text = "Descripción", value = false)
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+        }
+
+        Button(onClick = {
+            cartas = cartas + "Nueva Carta" // Agrega una nueva carta a la lista
+        }) {
+            Text("Agregar Carta")
+        }
+    }
 
 
     Log.i("Corcho", "entro en miUI y muestra ${text.toString()}...")
     Log.i("Corcho", "entro en miUI y muestra ${text?.value}...")
     Log.i("Corcho", "entro en miUI y muestra ${count}...")
+
 
     Column {
 
@@ -96,14 +124,14 @@ fun MiUI(text: MutableState<String>? = null) {
                     .fillMaxWidth()
             ) {
 
-                item {
+               /* item {
 
                     CategoriesCard(title = "Todos", text = "Todos", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
 
                     CategoriesCard(title = nombre1, text = "Desactivado", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
-                    CategoriesCard(title = "mañana", text = "Desactivado", value = false)
+                    CategoriesCard(title = nombre1.toString(), text = "Desactivado", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
                     CategoriesCard(title = "Noche", text = "Desactivado", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
@@ -111,26 +139,29 @@ fun MiUI(text: MutableState<String>? = null) {
                     Spacer(modifier = Modifier.width(4.dp))
                 }
 
-                    item {
-                        val jere = text?.value
-                        if (count != null) {
-                            CategoriesCard(title = count!!, text = "salio", value = false)
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Log.i("Corcho", "SIII funciono NOmbre ${text.toString()}, ${jere}")
-                        } else {
-                            if (text != null) {
-                                Log.i(
-                                    "Corcho",
-                                    "No funciono  ${count}"
-                                )
-                            }
-                            Log.i("Corcho", "No funciono el valor es ${text.toString()}")
+                item {
+                    if (nombre1 != null) {
+                        CategoriesCard(title = nombre1.toString(), text = "salio", value = false)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Log.i(
+                            "Corcho",
+                            "SIII funciono NOmbre ${text.toString()}, ${text}, ${nombre1}"
+                        )
+                    } else {
+                        if (nombre1 != null) {
+                            Log.i(
+                                "Corcho",
+                                "No funciono  ${count}"
+                            )
                         }
-
-
+                        Log.i("Corcho", "No funciono el valor es ${nombre1}")
                     }
 
+
+                }
+
                 item {
+
 
                     AddCategories()
                 }
@@ -153,7 +184,7 @@ fun MiUI(text: MutableState<String>? = null) {
                 MiCarta(texto = "Mañana", modifier = Modifier.fillMaxWidth(), value = false)
                 Spacer(modifier = Modifier.height(16.dp))
                 MiCarta(texto = "Nuevo", modifier = Modifier.fillMaxWidth(), value = false)
-                // Agrega más tarjetas según sea necesario
+*/                // Agrega más tarjetas según sea necesario
             }
         }
     }
