@@ -29,6 +29,7 @@ import androidx.compose.ui.window.Dialog
 
 @Composable
 fun CategoriesCard(title: String, text: String, value: Boolean) {
+
     Card(
         modifier = Modifier
             .height(80.dp)

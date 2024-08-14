@@ -19,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,20 +70,19 @@ fun ViewContainer() {
     val text = remember { mutableStateOf("") }
     Scaffold(
         content = {
-            MiUI(text)
+            MiUI()
         }
     )
 }
 
 @Composable
-fun MiUI(text: String) {
-    var lista by remember { mutableStateOf(listOf<String>()) }
-    //var texto by remember { mutableStateOf(text) }
-    var texto = text.value
-   // val nombreTexto = text
-    //Log.i("Corcho", "entro en miUI y muestra ${nombreTexto}")
-    //var texto by rememberSaveable { mutableStateOf("${text}") }
-    Log.i("Corcho", "entro en miUI y muestra ${text}")
+fun MiUI(text: MutableState<String>? = null) {
+    val count by remember { mutableStateOf(text?.value) }
+
+
+    Log.i("Corcho", "entro en miUI y muestra ${text.toString()}...")
+    Log.i("Corcho", "entro en miUI y muestra ${text?.value}...")
+    Log.i("Corcho", "entro en miUI y muestra ${count}...")
 
     Column {
 
@@ -108,17 +109,27 @@ fun MiUI(text: String) {
                     Spacer(modifier = Modifier.width(4.dp))
                     CategoriesCard(title = "Escuela", text = "Desactivado", value = false)
                     Spacer(modifier = Modifier.width(4.dp))
-
                 }
-                item {
-                    if (text.isNotEmpty()) {
-                        CategoriesCard(title = text, text = "salio", value = false)
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Log.i("Corcho", "SIII funciono")
-                    }else{Log.i("Corcho", "No funciono el valor es ${texto} y de text es ${text.value}")}
+
+                    item {
+                        val jere = text?.value
+                        if (count != null) {
+                            CategoriesCard(title = count!!, text = "salio", value = false)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Log.i("Corcho", "SIII funciono NOmbre ${text.toString()}, ${jere}")
+                        } else {
+                            if (text != null) {
+                                Log.i(
+                                    "Corcho",
+                                    "No funciono  ${count}"
+                                )
+                            }
+                            Log.i("Corcho", "No funciono el valor es ${text.toString()}")
+                        }
 
 
-                }
+                    }
+
                 item {
 
                     AddCategories()

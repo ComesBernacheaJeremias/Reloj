@@ -16,15 +16,13 @@ fun MiCarta(texto: String, value: Boolean, modifier: Modifier = Modifier) {
         Text(text = texto)
 
         val estado = value
-        Log.i("Corcho", "cambie un boton ${estado}, quiero saber que dice")
         val checkedState = remember { mutableStateOf(estado) }
         val checked = checkedState.value
-        Log.i("Corcho", "lo que aparece en checked es${checked}")
         Switch(checked = checkedState.value, onCheckedChange = { checkedState.value = it })
         if (checked) {
-            Log.i("Corcho", "el valor es verdadero, ${checked}")
+
         } else {
-            Log.i("Corcho", "el valor es falso ${checked}")
+
         }
     }
 }

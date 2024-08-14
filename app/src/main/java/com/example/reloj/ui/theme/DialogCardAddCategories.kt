@@ -1,6 +1,8 @@
 package com.example.reloj.ui.theme
 
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.example.reloj.MiUI
 
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun DialogCardAddCategories(openDialog: MutableState<Boolean>) {
     var text by rememberSaveable { mutableStateOf("") }
@@ -111,10 +115,14 @@ fun DialogCardAddCategories(openDialog: MutableState<Boolean>) {
                     Button(onClick = { addCategories = true }) {
                         Text("Add Category")
                         if (addCategories) {
+                            val textState = remember { mutableStateOf("${text}") }
+
+
+                            Log.i("Corcho", "TEXTSTATE es ${textState}")
                             //AdderNewCategories(text = text)
-                            MiUI(text)
+                            MiUI(text = textState)
                             addCategories = false
-                            //openDialog.value = false
+                            openDialog.value = false
                         }
 
                     }
