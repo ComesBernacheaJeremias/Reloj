@@ -55,6 +55,7 @@ fun AlertDialogDoc(
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     val cartas = cartasViewModel.cartas
+    Log.i("Corcho", "el texto del alertDIalog es ${text}")
 
 
 
@@ -66,14 +67,16 @@ fun AlertDialogDoc(
 
             }) {
             DialogCardAddCategories(openDialog,
-                onConfirm = {
-                    cartasViewModel.agregarCarta("Nueva Carta")
+                onConfirm  = {categoryName->
+                    if (categoryName.isNotEmpty()){
+                    cartasViewModel.agregarCarta(categoryName)}
                     openDialog.value = false // Cierra el diálogo
-                    Log.i("Corcho", "deberia sumar")
+                    Log.i("Corcho", "el categoriname es ${categoryName}")
+
                 },
                 onDismiss = {
                     openDialog.value = false // Cierra el diálogo
-                    Log.i("Corcho", "NODEBERIA sumar")
+
 
                 })
 

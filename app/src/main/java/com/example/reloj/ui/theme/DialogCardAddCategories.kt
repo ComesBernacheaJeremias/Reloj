@@ -40,10 +40,13 @@ import com.example.reloj.MiUI
 @Composable
 fun DialogCardAddCategories(
     openDialog: MutableState<Boolean>,
-    onConfirm: () -> Unit,
+    onConfirm: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
     var text by rememberSaveable { mutableStateOf("") }
+    Log.i("Corcho", "el texto es ${text}")
+
+    val maxChars = 10
 
 
     Box() {
@@ -106,7 +109,10 @@ fun DialogCardAddCategories(
 
                             TextField(
                                 value = text,
-                                onValueChange = { text = it },
+                                onValueChange = {
+                                    if (it.length <= maxChars) {
+                                        text = it  // Solo actualiza el valor si está dentro del límite
+                                    }},
                                 placeholder = { Text("Nombre") },
                                 label = { Text(text = "Nueva Categoria") },
                                 singleLine = true,
@@ -118,7 +124,7 @@ fun DialogCardAddCategories(
                 }
                 Box(modifier = Modifier.weight(1f)) {
                     Button(onClick = {
-                        onConfirm()
+                        onConfirm(text)
                     }) {
                         Text("Add Category")
 

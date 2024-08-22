@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -37,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.ui.theme.AddCategories
 import com.example.reloj.ui.theme.CartasViewModel
 import com.example.reloj.ui.theme.CategoriesCard
+import com.example.reloj.ui.theme.FloatingButtonAddAlarm
 import com.example.reloj.ui.theme.MiCarta
 import com.example.reloj.ui.theme.RelojTheme
 
@@ -44,6 +45,7 @@ import com.example.reloj.ui.theme.RelojTheme
 class MainActivity : ComponentActivity() {
 
     data class Item(val title: String, val description: String, val value: Boolean = false)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +71,7 @@ class MainActivity : ComponentActivity() {
 var nombre1 = "jeremias"
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
@@ -80,6 +83,7 @@ fun ViewContainer() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiUI(cartasViewModel: CartasViewModel = viewModel()) {
 
@@ -100,7 +104,7 @@ fun MiUI(cartasViewModel: CartasViewModel = viewModel()) {
 
         Box(
             modifier = Modifier
-                .fillMaxSize() // Ocupa toda la pantalla
+                .weight(1f) // Ocupa toda la pantalla
                 .padding(16.dp) // Agrega un poco de espacio alrededor
         ) {
             Column {
@@ -115,6 +119,11 @@ fun MiUI(cartasViewModel: CartasViewModel = viewModel()) {
                 MiCarta(texto = "Nuevo", modifier = Modifier.fillMaxWidth(), value = false)
                 // Agrega más tarjetas según sea necesario
             }
+        }
+        Box(modifier = Modifier.weight(1f).padding(16.dp)){
+            FloatingButtonAddAlarm()
+                
+
         }
     }
 }
