@@ -72,6 +72,7 @@ fun setAlarm(context: Context, selectedHour: Int, selectedMinute: Int) {
     // Creamos un Intent para el BroadcastReceiver que manejará la alarma
     val intent = Intent(context, AlarmReceiver::class.java)
 
+
     // Creamos un PendingIntent que se activará cuando la alarma suene
     val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
