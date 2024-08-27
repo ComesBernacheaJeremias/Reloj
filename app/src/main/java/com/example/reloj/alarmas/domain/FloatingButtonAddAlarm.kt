@@ -1,4 +1,4 @@
-package com.example.reloj.ui.theme
+package com.example.reloj.alarmas.domain
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -9,10 +9,14 @@ import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.reloj.alarmas.data.AlarmViewModel
+import com.example.reloj.categorias.data.CartasViewModel
 import java.util.*
 
 @Composable
@@ -35,36 +39,54 @@ fun FloatingButtonAddAlarm() {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker(onDismiss: () -> Unit = {}) {
+fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> Unit = {}) {
     val context = LocalContext.current
     val state = rememberTimePickerState()
     var time by remember { mutableStateOf("") }
 
-    // TimePicker implementation
-    TimePicker(
-        state = state,
-        modifier = Modifier.padding(15.dp),
-        colors = TimePickerDefaults.colors(),
-        layoutType = TimePickerDefaults.layoutType()
-    )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-    // Display selected time
-    Text(text = "Hora seleccionada H:M = ${state.hour} : ${state.minute}")
-    time = "${state.hour} : ${state.minute}"
+            // TimePicker implementation
+            TimePicker(
+                state = state,
+                modifier = Modifier.padding(15.dp),
+                colors = TimePickerDefaults.colors(),
+                layoutType = TimePickerDefaults.layoutType()
+            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                // Mostrar la hora seleccionada
+                Text(text = "Hora seleccionada H:M = ${state.hour} : ${state.minute}")
+                time = "${state.hour} : ${state.minute}"
+            }
 
-    // Add buttons to close the TimePicker
-    Row {
-        Button(onClick = onDismiss) {
-            Text("Cerrar")
-        }
-        Button(onClick = {
-            setAlarm(context, state.hour, state.minute)
-            onDismiss()
-        }) {
-            Text("Aceptar")
+
+            // Add buttons to close the TimePicker
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Button(onClick = onDismiss) {
+                    Text("Cerrar")
+                }
+                Button(onClick = {
+                    setAlarm(context, state.hour, state.minute)
+                    alarmViewModel.agregarCarta(time)
+                    onDismiss()
+                }) {
+                    Text("Aceptar")
+                }
+            }
         }
     }
 }
+
 
 fun setAlarm(context: Context, selectedHour: Int, selectedMinute: Int) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -74,7 +96,8 @@ fun setAlarm(context: Context, selectedHour: Int, selectedMinute: Int) {
 
 
     // Creamos un PendingIntent que se activará cuando la alarma suene
-    val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    val pendingIntent =
+        PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
     // Configuramos la hora exacta a la que la alarma debe dispararse
     val calendar = Calendar.getInstance().apply {
@@ -86,10 +109,6 @@ fun setAlarm(context: Context, selectedHour: Int, selectedMinute: Int) {
     // Programamos la alarma para que se dispare en la hora exacta
     alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
 }
-
-
-
-
 
 
 @Preview(showBackground = true)

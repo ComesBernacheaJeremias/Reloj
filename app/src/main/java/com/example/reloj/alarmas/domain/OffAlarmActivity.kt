@@ -1,4 +1,4 @@
-package com.example.reloj.ui.theme
+package com.example.reloj.alarmas.domain
 
 import android.app.Activity
 import android.os.Bundle

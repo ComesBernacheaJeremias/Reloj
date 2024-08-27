@@ -1,4 +1,4 @@
-package com.example.reloj.ui.theme
+package com.example.reloj.categorias.ui
 
 
 import android.util.Log

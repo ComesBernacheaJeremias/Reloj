@@ -1,4 +1,4 @@
-package com.example.reloj.ui.theme
+package com.example.reloj.alarmas.ui.dialog
 
 
 import android.app.AlarmManager
@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.example.reloj.alarmas.domain.AlarmReceiver
 
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.reloj.ui.theme
+package com.example.reloj.alarmas.data
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
