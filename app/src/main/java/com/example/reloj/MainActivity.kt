@@ -16,22 +16,31 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.AlarmViewModel
 import com.example.reloj.categorias.domain.AddCategories
 import com.example.reloj.categorias.data.CartasViewModel
 import com.example.reloj.categorias.ui.CategoriesCard
-import com.example.reloj.alarmas.domain.FloatingButtonAddAlarm
+import com.example.reloj.alarmas.domain.MyTimePicker
 import com.example.reloj.alarmas.ui.MiCarta
 import com.example.reloj.ui.theme.RelojTheme
 
@@ -61,23 +70,52 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-var nombre1 = "jeremias"
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
 fun ViewContainer() {
-    Scaffold(
-        floatingActionButton = { FloatingButtonAddAlarm() },
-        floatingActionButtonPosition = FabPosition.Center,
-        content = {
-            MiUI()
+    var showTimePicker by remember { mutableStateOf(false) }
 
+    Scaffold(
+        floatingActionButton = {
+
+
+            FloatingActionButton(
+                onClick = { showTimePicker = true },
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(150.dp)
+                    .zIndex(0f)
+
+            ) {
+                Icon(Icons.Filled.Favorite, contentDescription = "Floating action button")
+            }
+
+
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        content = { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
+                MiUI()
+
+
+
+            }
+            if (showTimePicker) {
+
+                MyTimePicker(onDismiss = { showTimePicker = false })
+            }
         }
     )
+
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
