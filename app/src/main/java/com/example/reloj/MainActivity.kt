@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -41,7 +40,7 @@ import com.example.reloj.categorias.domain.AddCategories
 import com.example.reloj.categorias.data.CartasViewModel
 import com.example.reloj.categorias.ui.CategoriesCard
 import com.example.reloj.alarmas.domain.MyTimePicker
-import com.example.reloj.alarmas.ui.MiCarta
+import com.example.reloj.alarmas.ui.AlarmCard
 import com.example.reloj.ui.theme.RelojTheme
 
 
@@ -148,7 +147,7 @@ fun MiUI(
             Column {
                 LazyColumn {
                     items(alarma) { alarma ->
-                        CategoriesCard(title = alarma, text = "Descripción", value = false)
+                        AlarmCard(title = alarma, text = "Descripción", value = false)
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }

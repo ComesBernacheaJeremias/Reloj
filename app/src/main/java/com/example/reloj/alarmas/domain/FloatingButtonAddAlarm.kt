@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -16,7 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.data.AlarmViewModel
+import com.example.reloj.alarmas.data.GestorAlarm
 import java.util.*
 
 @Composable
@@ -25,10 +28,10 @@ fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> 
     val context = LocalContext.current
     val state = rememberTimePickerState()
     var time by remember { mutableStateOf("") }
-    var goToSetAlarm by remember {
-        mutableStateOf(false)
-    }
-    if (goToSetAlarm){setAlarm(context)}
+    var goToSetAlarm by remember { mutableStateOf(false) }
+    val gestor = GestorAlarm()
+
+
 
     Box(
         modifier = Modifier
@@ -69,19 +72,24 @@ fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> 
                 }
                 Button(onClick = {
                     goToSetAlarm = true
+                    Log.i("Corcho", "se apreto aceptar $goToSetAlarm")
                     alarmViewModel.agregarCarta(time)
                     alarmViewModel.newHora(state.hour)
                     alarmViewModel.newMinutos(state.minute)
+                    gestor.agregarAlarma(
+                        Alarm(state.hour, state.minute)
+                    )
                     onDismiss()
                 }) {
                     Text("Aceptar")
                 }
+
             }
         }
     }
+    Log.i("Corcho", "$goToSetAlarm")
+
 }
-
-
 
 
 @Preview(showBackground = true)
@@ -89,4 +97,5 @@ fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> 
 fun PreviewContent() {
     MyTimePicker()
 }
+
 

@@ -1,22 +1,33 @@
 package com.example.reloj.alarmas.domain
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.AlarmViewModel
 import java.util.Calendar
 
+@SuppressLint("ScheduleExactAlarm")
 @Composable
-fun setAlarm(context: Context, alarmViewModel: AlarmViewModel = viewModel()) {
+fun SetAlarm(hora:Int, minutos:Int) {
+    Log.i("Corcho", "entro en SetAlarm ${hora} ${minutos}")
+
+    val context = LocalContext.current
+
+
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-    var hora = alarmViewModel.hora.value
-    var minutos = alarmViewModel.minutos.value
-
+/*
+    val hora = alarmViewModel.hora.value
+    val minutos = alarmViewModel.minutos.value
+    Log.i("Corcho", " ${hora}, ${minutos}")
+*/
     // Creamos un Intent para el BroadcastReceiver que manejará la alarma
     val intent = Intent(context, AlarmReceiver::class.java)
 
@@ -31,15 +42,14 @@ fun setAlarm(context: Context, alarmViewModel: AlarmViewModel = viewModel()) {
         set(Calendar.MINUTE, minutos) // Establecemos el minuto seleccionado
         set(Calendar.SECOND, 0) // Aseguramos que los segundos estén en 0
     }
+    Log.i("Corcho", " ${hora}, ${minutos}")
 
     // Programamos la alarma para que se dispare en la hora exacta
     if (hora != -1 && minutos != -1) {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }else{
-        Toast.makeText(applicationContext,
-            "Codigo ya registrado. Pruebe con otro",
-            Toast.LENGTH_SHORT
-        ).show()
+        Log.i("Corcho", "NO SE PUDO ACTIVAR")
+        Log.i("Corcho", "tengo que mostrar calendar: ${calendar}, ${hora}, ${minutos}")
 
     }
 }
