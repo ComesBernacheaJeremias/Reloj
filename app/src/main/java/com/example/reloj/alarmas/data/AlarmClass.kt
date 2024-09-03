@@ -2,11 +2,13 @@ package com.example.reloj.alarmas.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Database
 import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.RoomDatabase
 
 @Entity(tableName = "alarms")
 data class Alarm(
@@ -37,4 +39,9 @@ interface AlarmDao {
 
     @Delete
     suspend fun delete(alarm: Alarm)  // Función para eliminar una alarma específica de la base de datos
+}
+//Base de datos
+@Database(entities = arrayOf(TaskEntity::class), version = 1)
+abstract class AlarmDatabase : RoomDatabase() {
+    abstract fun alarmDao(): AlarmDao
 }
