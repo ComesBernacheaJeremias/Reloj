@@ -1,5 +1,6 @@
 package com.example.reloj.alarmas.domain
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -18,18 +19,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
+import com.example.reloj.alarmas.data.AlarmDao
 import com.example.reloj.alarmas.data.AlarmViewModel
 import com.example.reloj.alarmas.data.GestorAlarm
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> Unit = {}) {
+fun MyTimePicker(alarmDao: AlarmDao, alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> Unit = {}) {
     val context = LocalContext.current
     val state = rememberTimePickerState()
     var time by remember { mutableStateOf("") }
     var goToSetAlarm by remember { mutableStateOf(false) }
     val gestor = GestorAlarm()
+
 
 
 
@@ -76,9 +83,16 @@ fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> 
                     alarmViewModel.agregarCarta(time)
                     alarmViewModel.newHora(state.hour)
                     alarmViewModel.newMinutos(state.minute)
-                    gestor.agregarAlarma(
-                        Alarm(state.hour, state.minute)
-                    )
+
+
+                    //agrega al ROOM
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val newAlarm = Alarm(hora = state.hour, minutos = state.minute, state = true)
+                        alarmDao.insert(newAlarm)
+                    }
+
+
+
                     onDismiss()
                 }) {
                     Text("Aceptar")
@@ -88,6 +102,10 @@ fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> 
         }
     }
     Log.i("Corcho", "$goToSetAlarm")
+
+
+
+
 
 }
 

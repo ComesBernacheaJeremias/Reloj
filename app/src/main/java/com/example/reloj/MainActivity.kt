@@ -2,6 +2,7 @@ package com.example.reloj
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -35,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.reloj.alarmas.data.Alarm
+import com.example.reloj.alarmas.data.AlarmDao
 import com.example.reloj.alarmas.data.AlarmViewModel
 import com.example.reloj.categorias.domain.AddCategories
 import com.example.reloj.categorias.data.CartasViewModel
@@ -42,11 +45,15 @@ import com.example.reloj.categorias.ui.CategoriesCard
 import com.example.reloj.alarmas.domain.MyTimePicker
 import com.example.reloj.alarmas.ui.AlarmCard
 import com.example.reloj.ui.theme.RelojTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
 
     data class Item(val title: String, val description: String, val value: Boolean = false)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,8 +81,9 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
-fun ViewContainer() {
+fun ViewContainer( ) {
     var showTimePicker by remember { mutableStateOf(false) }
+
 
     Scaffold(
         floatingActionButton = {
@@ -116,15 +124,21 @@ fun ViewContainer() {
 }
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiUI(
+    alarmDao: AlarmDao,
     cartasViewModel: CartasViewModel = viewModel(),
     alarmViewModel: AlarmViewModel = viewModel()
 ) {
 
     val cartas = cartasViewModel.cartas
     val alarma = alarmViewModel.alarmCard
+    CoroutineScope(Dispatchers.IO).launch {
+       val todas = alarmDao.getAllAlarms()
+        Log.i("Corcho", "$todas")
+    }
 
     Column {
         LazyRow {
