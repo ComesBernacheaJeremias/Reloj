@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.data.AlarmDao
@@ -54,10 +55,15 @@ class MainActivity : ComponentActivity() {
 
     data class Item(val title: String, val description: String, val value: Boolean = false)
 
+    private lateinit var alarmViewModel: AlarmViewModel
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Esto conecta con el ViewModel
+        alarmViewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
+
         setContent {
             RelojTheme {
                 // A surface container using the 'background' color from the theme
@@ -128,17 +134,12 @@ fun ViewContainer( ) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiUI(
-    alarmDao: AlarmDao,
     cartasViewModel: CartasViewModel = viewModel(),
     alarmViewModel: AlarmViewModel = viewModel()
 ) {
-
     val cartas = cartasViewModel.cartas
     val alarma = alarmViewModel.alarmCard
-    CoroutineScope(Dispatchers.IO).launch {
-       val todas = alarmDao.getAllAlarms()
-        Log.i("Corcho", "$todas")
-    }
+
 
     Column {
         LazyRow {

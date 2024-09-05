@@ -9,6 +9,9 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.20-1.0.24"
 */
 
+    id("androidx.room")
+
+    id ("com.google.devtools.ksp")
 
 }
 
@@ -55,23 +58,25 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
-    }/*
+    }
+    // Configuración opcional para KSP (ejemplo para Room)
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
     room {
         schemaDirectory("$projectDir/schemas")
     }
-*/
+
 }
 
 dependencies {
-  /*  val room_version = "2.6.1"
-    // Room
+
+    val room_version = "2.6.1"
 
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-
-    // To use Kotlin Symbol Processing (KSP)
     ksp("androidx.room:room-compiler:$room_version")
-*/
 
 
     implementation(libs.androidx.core.ktx)

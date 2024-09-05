@@ -1,10 +1,6 @@
 package com.example.reloj.alarmas.domain
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,19 +15,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
-import com.example.reloj.alarmas.data.AlarmDao
-import com.example.reloj.alarmas.data.AlarmManagerHelper
 import com.example.reloj.alarmas.data.AlarmViewModel
 import com.example.reloj.alarmas.data.GestorAlarm
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker(alarmDao: AlarmDao, alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> Unit = {}) {
+fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> Unit = {}) {
     val context = LocalContext.current
     val state = rememberTimePickerState()
     var time by remember { mutableStateOf("") }
@@ -89,7 +82,7 @@ fun MyTimePicker(alarmDao: AlarmDao, alarmViewModel: AlarmViewModel = viewModel(
                     //agrega al ROOM
                     CoroutineScope(Dispatchers.IO).launch {
                         val newAlarm = Alarm(hora = state.hour, minutos = state.minute, state = true)
-                        alarmDao.insert(newAlarm)
+
                     }
 
 
