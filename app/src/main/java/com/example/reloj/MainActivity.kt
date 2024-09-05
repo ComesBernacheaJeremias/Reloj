@@ -55,14 +55,14 @@ class MainActivity : ComponentActivity() {
 
     data class Item(val title: String, val description: String, val value: Boolean = false)
 
-    private lateinit var alarmViewModel: AlarmViewModel
+   // private lateinit var alarmViewModel: AlarmViewModel
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Esto conecta con el ViewModel
-        alarmViewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
+        //alarmViewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
 
         setContent {
             RelojTheme {

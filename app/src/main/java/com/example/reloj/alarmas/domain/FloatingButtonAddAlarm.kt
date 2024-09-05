@@ -21,16 +21,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@SuppressLint("CoroutineCreationDuringComposition")
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> Unit = {}) {
+fun MyTimePicker(nuevoViewModel: AlarmaViewModel = viewModel(),  onDismiss: () -> Unit = {}) {
     val context = LocalContext.current
     val state = rememberTimePickerState()
     var time by remember { mutableStateOf("") }
-    var goToSetAlarm by remember { mutableStateOf(false) }
-    val gestor = GestorAlarm()
 
+
+
+
+    //esto estaba en parametros alarmViewModel: AlarmViewModel = viewModel(),
 
 
 
@@ -72,19 +74,25 @@ fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> 
                     Text("Cerrar")
                 }
                 Button(onClick = {
-                    goToSetAlarm = true
-                    Log.i("Corcho", "se apreto aceptar $goToSetAlarm")
+                    //goToSetAlarm = true
+                   // Log.i("Corcho", "se apreto aceptar $goToSetAlarm")
+                    /*
                     alarmViewModel.agregarCarta(time)
                     alarmViewModel.newHora(state.hour)
                     alarmViewModel.newMinutos(state.minute)
 
+                     */
+                    val nuevaAlarma = Alarm(hora = state.hour, minutos = state.minute, state = true)
+                    nuevoViewModel.insertarAlarmas(nuevaAlarma)
+                    Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
 
+/*
                     //agrega al ROOM
                     CoroutineScope(Dispatchers.IO).launch {
                         val newAlarm = Alarm(hora = state.hour, minutos = state.minute, state = true)
 
                     }
-
+*/
 
 
                     onDismiss()
@@ -95,7 +103,7 @@ fun MyTimePicker(alarmViewModel: AlarmViewModel = viewModel(), onDismiss: () -> 
             }
         }
     }
-    Log.i("Corcho", "$goToSetAlarm")
+   // Log.i("Corcho", "$goToSetAlarm")
 
 
 

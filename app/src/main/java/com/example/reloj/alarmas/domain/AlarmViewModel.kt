@@ -8,7 +8,7 @@ import com.example.reloj.alarmas.data.Alarm
 import kotlinx.coroutines.launch
 
 //maneja lo logica relacionada con la interfaz de usuario y el manejo de datos
-class AlarmViewModel(private val repository: AlarmRepository) : ViewModel() {
+class AlarmaViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     fun insertarAlarmas(alarm: Alarm) {
         viewModelScope.launch {

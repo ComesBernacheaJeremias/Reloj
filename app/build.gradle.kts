@@ -2,12 +2,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 
-  /*  // Para el ROOM
-    id("androidx.room")
-
-    //kts
-    id("com.google.devtools.ksp") version "2.0.20-1.0.24"
-*/
 
     id("androidx.room")
 
@@ -60,10 +54,10 @@ android {
         }
     }
     // Configuración opcional para KSP (ejemplo para Room)
-    ksp {
+   /* ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
     }
-
+*/
     room {
         schemaDirectory("$projectDir/schemas")
     }
