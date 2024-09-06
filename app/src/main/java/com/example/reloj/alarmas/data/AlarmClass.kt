@@ -1,7 +1,6 @@
 package com.example.reloj.alarmas.data
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
@@ -22,16 +21,7 @@ data class Alarm(
     @ColumnInfo(name = "state") var state: Boolean //es para saber si esta o no activado
 )
 
-// Clase que maneja los usuarios
-class GestorAlarm {
-    private val alarmas = mutableMapOf<Int, Alarm>()
 
-    // Agrega un usuario
-    fun agregarAlarma(alarma: Alarm) {
-        alarmas[alarma.hora] = alarma
-
-    }
-}
 //Esto es el DAO (tiene que estar en otro lugar)
 @Dao
 interface AlarmDao {

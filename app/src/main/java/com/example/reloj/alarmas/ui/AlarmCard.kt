@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.reloj.alarmas.data.AlarmViewModel
+import com.example.reloj.alarmas.data.CambiarViewModel
 
 
 @Composable
@@ -25,10 +25,10 @@ fun AlarmCard(
     text: String,
     value: Boolean,
     modifier: Modifier = Modifier,
-    alarmViewModel: AlarmViewModel = viewModel()
+    cardAlarmViewModel: CambiarViewModel = viewModel()
 ) {
-    val hora = alarmViewModel.hora.value
-    val minutos = alarmViewModel.minutos.value
+    val hora = cardAlarmViewModel.hora.value
+    val minutos = cardAlarmViewModel.minutos.value
 
     Card(
         modifier = modifier
@@ -55,7 +55,7 @@ fun AlarmCard(
                         }
                     )
                     if (checked) {
-                        alarmViewModel.ActivarAlarma(hora, minutos)
+                        cardAlarmViewModel.ActivarAlarma(hora, minutos)
                     }
                 }
             }

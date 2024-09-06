@@ -14,7 +14,7 @@ import androidx.room.RoomDatabase
 import com.example.reloj.alarmas.domain.SetAlarm
 
 
-class AlarmViewModel : ViewModel() {
+class CambiarViewModel : ViewModel() {
     var alarmCard = mutableStateListOf("Carta 1", "Carta 2", "Carta 3")
         private set
 

@@ -1,18 +1,22 @@
 package com.example.reloj.alarmas.domain
 
-import androidx.lifecycle.LiveData
+import android.content.Context
 import com.example.reloj.alarmas.data.Alarm
-import com.example.reloj.alarmas.data.AlarmDao
+import com.example.reloj.alarmas.data.AlarmDatabase
 
-//Intermediario entre Base de Datos y ViewModel
-class AlarmRepository(private val alarmDao: AlarmDao) {
+
+
+
+//Intermediario entre Base de Datos y ViewModel-----private val alarmDao: AlarmDao
+open class AlarmRepository(context: Context) {
+    private val database = AlarmDatabase.getDatabase(context).alarmDao()
 
     suspend fun insertar(alarma: Alarm) {
-        alarmDao.insert(alarma)
+        database.insert(alarma)
     }
 
     suspend fun obtenerTodos(): List<Alarm> {
-        return alarmDao.getAllAlarms()
+        return database.getAllAlarms()
     }
 /*
     suspend fun actualizar(alarma: Alarm) {
@@ -20,6 +24,6 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
     }*/
 
     suspend fun eliminar(alarma: Alarm) {
-        alarmDao.delete(alarma)
+        database.delete(alarma)
     }
 }

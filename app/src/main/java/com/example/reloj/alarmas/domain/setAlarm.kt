@@ -6,12 +6,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.reloj.alarmas.data.AlarmViewModel
 import java.util.Calendar
 
 @SuppressLint("ScheduleExactAlarm")

@@ -1,6 +1,7 @@
 package com.example.reloj.alarmas.domain
 
-import android.annotation.SuppressLint
+
+
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,108 +10,80 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
-import com.example.reloj.alarmas.data.AlarmViewModel
-import com.example.reloj.alarmas.data.GestorAlarm
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker(nuevoViewModel: AlarmaViewModel = viewModel(),  onDismiss: () -> Unit = {}) {
-    val context = LocalContext.current
-    val state = rememberTimePickerState()
-    var time by remember { mutableStateOf("") }
+fun MyTimePicker(nuevoViewModel: AlarmaViewModel = viewModel(), onDismiss: () -> Unit = {}) {
+    // val context = LocalContext.current
+
+
+
+        val state = rememberTimePickerState()
+        var time by remember { mutableStateOf("") }
 
 
 
 
-    //esto estaba en parametros alarmViewModel: AlarmViewModel = viewModel(),
-
-
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f))
-            .zIndex(1f),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+                .zIndex(1f),
+            contentAlignment = Alignment.Center
         ) {
-
-            // TimePicker implementation
-            TimePicker(
-                state = state,
-                modifier = Modifier.padding(15.dp),
-                colors = TimePickerDefaults.colors(),
-                layoutType = TimePickerDefaults.layoutType()
-            )
-            Box(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Mostrar la hora seleccionada
-                Text(text = "Hora seleccionada H:M = ${state.hour} : ${state.minute}")
-                time = "${state.hour} : ${state.minute}"
-            }
 
-
-            // Add buttons to close the TimePicker
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Button(onClick = onDismiss) {
-                    Text("Cerrar")
+                // TimePicker implementation
+                TimePicker(
+                    state = state,
+                    modifier = Modifier.padding(15.dp),
+                    colors = TimePickerDefaults.colors(),
+                    layoutType = TimePickerDefaults.layoutType()
+                )
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Mostrar la hora seleccionada
+                    Text(text = "Hora seleccionada H:M = ${state.hour} : ${state.minute}")
+                    time = "${state.hour} : ${state.minute}"
                 }
-                Button(onClick = {
-                    //goToSetAlarm = true
-                   // Log.i("Corcho", "se apreto aceptar $goToSetAlarm")
-                    /*
-                    alarmViewModel.agregarCarta(time)
-                    alarmViewModel.newHora(state.hour)
-                    alarmViewModel.newMinutos(state.minute)
 
-                     */
-                    val nuevaAlarma = Alarm(hora = state.hour, minutos = state.minute, state = true)
-                    nuevoViewModel.insertarAlarmas(nuevaAlarma)
-                    Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
 
-/*
-                    //agrega al ROOM
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val newAlarm = Alarm(hora = state.hour, minutos = state.minute, state = true)
-
+                // Add buttons to close the TimePicker
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(onClick = onDismiss) {
+                        Text("Cerrar")
                     }
-*/
+                    Button(onClick = {
+                        val nuevaAlarma =
+                            Alarm(hora = state.hour, minutos = state.minute, state = true)
+                        nuevoViewModel.insertarAlarmas(nuevaAlarma)
+                        Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
 
 
-                    onDismiss()
-                }) {
-                    Text("Aceptar")
+                        onDismiss()
+                    }) {
+                        Text("Aceptar")
+                    }
+
                 }
-
             }
         }
+
     }
-   // Log.i("Corcho", "$goToSetAlarm")
-
-
-
-
-
-}
-
 
 @Preview(showBackground = true)
 @Composable

@@ -2,7 +2,6 @@ package com.example.reloj
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -18,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -37,32 +35,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.reloj.alarmas.data.Alarm
-import com.example.reloj.alarmas.data.AlarmDao
-import com.example.reloj.alarmas.data.AlarmViewModel
+import com.example.reloj.alarmas.data.CambiarViewModel
+import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.categorias.domain.AddCategories
 import com.example.reloj.categorias.data.CartasViewModel
 import com.example.reloj.categorias.ui.CategoriesCard
 import com.example.reloj.alarmas.domain.MyTimePicker
 import com.example.reloj.alarmas.ui.AlarmCard
 import com.example.reloj.ui.theme.RelojTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 
 class MainActivity : ComponentActivity() {
 
-    data class Item(val title: String, val description: String, val value: Boolean = false)
 
-   // private lateinit var alarmViewModel: AlarmViewModel
+
+    //private lateinit var alarmViewModel: AlarmViewModel
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Esto conecta con el ViewModel
-        //alarmViewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
+
 
         setContent {
             RelojTheme {
@@ -83,12 +78,13 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
 fun ViewContainer( ) {
     var showTimePicker by remember { mutableStateOf(false) }
+
 
 
     Scaffold(
@@ -122,6 +118,7 @@ fun ViewContainer( ) {
             }
             if (showTimePicker) {
 
+
                 MyTimePicker(onDismiss = { showTimePicker = false })
             }
         }
@@ -131,11 +128,10 @@ fun ViewContainer( ) {
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiUI(
     cartasViewModel: CartasViewModel = viewModel(),
-    alarmViewModel: AlarmViewModel = viewModel()
+    alarmViewModel: CambiarViewModel = viewModel()
 ) {
     val cartas = cartasViewModel.cartas
     val alarma = alarmViewModel.alarmCard
@@ -170,14 +166,14 @@ fun MiUI(
         }
     }
 
-
+/*
     @Preview(showBackground = true)
     @Composable
     fun PreviewLazyRowContent() {
         RelojTheme {
             //esto no esta afectando. Pero podria utilizar en otro momento
         }
-    }
+    }*/
 }
 
 
