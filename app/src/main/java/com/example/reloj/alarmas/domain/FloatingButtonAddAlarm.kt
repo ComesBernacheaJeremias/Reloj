@@ -19,13 +19,14 @@ import com.example.reloj.alarmas.data.Alarm
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker(nuevoViewModel: AlarmaViewModel = viewModel(), onDismiss: () -> Unit = {}) {
+fun MyTimePicker( onDismiss: () -> Unit = {}) {
     // val context = LocalContext.current
 
 
 
         val state = rememberTimePickerState()
         var time by remember { mutableStateOf("") }
+        var abrir by remember { mutableStateOf(false) }
 
 
 
@@ -68,10 +69,8 @@ fun MyTimePicker(nuevoViewModel: AlarmaViewModel = viewModel(), onDismiss: () ->
                         Text("Cerrar")
                     }
                     Button(onClick = {
-                        val nuevaAlarma =
-                            Alarm(hora = state.hour, minutos = state.minute, state = true)
-                        nuevoViewModel.insertarAlarmas(nuevaAlarma)
-                        Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
+                       abrir = true
+
 
 
                         onDismiss()
@@ -82,8 +81,19 @@ fun MyTimePicker(nuevoViewModel: AlarmaViewModel = viewModel(), onDismiss: () ->
                 }
             }
         }
+    if (abrir){
+        AgregarAlarma(hora = state.hour, minutos = state.minute)
+    }
 
     }
+
+@Composable
+fun AgregarAlarma(nuevoViewModel: AlarmaViewModel = viewModel(), hora:Int, minutos:Int){
+    val nuevaAlarma =
+        Alarm(hora = hora, minutos = minutos, state = true)
+    nuevoViewModel.insertarAlarmas(nuevaAlarma)
+    Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
+}
 
 @Preview(showBackground = true)
 @Composable
