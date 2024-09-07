@@ -13,25 +13,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
 
 
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker( onDismiss: () -> Unit = {}) {
+fun MyTimePicker(onDismiss: () -> Unit = {}) {
     // val context = LocalContext.current
 
 
 
         val state = rememberTimePickerState()
         var time by remember { mutableStateOf("") }
-        var abrir by remember { mutableStateOf(false) }
+
+    // Obtén el ViewModel dentro de un Composable
+    //val nuevoViewModel: AlarmaViewModel = viewModel()
 
 
 
 
-        Box(
+
+
+
+
+
+
+
+    Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5f))
@@ -69,7 +81,9 @@ fun MyTimePicker( onDismiss: () -> Unit = {}) {
                         Text("Cerrar")
                     }
                     Button(onClick = {
-                       abrir = true
+
+                            AgregarAlarma(hora = state.hour, minutos = state.minute)
+
 
 
 
@@ -81,24 +95,32 @@ fun MyTimePicker( onDismiss: () -> Unit = {}) {
                 }
             }
         }
-    if (abrir){
-        AgregarAlarma(hora = state.hour, minutos = state.minute)
-    }
+
 
     }
 
-@Composable
-fun AgregarAlarma(nuevoViewModel: AlarmaViewModel = viewModel(), hora:Int, minutos:Int){
+
+
+
+
+fun AgregarAlarma(
+    alarmaViewModel: AlarmaViewModel,
+    hora: Int,
+    minutos: Int
+){
+
+
+    Log.i("Corcho", "ENTRO A LA FUNCION")
     val nuevaAlarma =
         Alarm(hora = hora, minutos = minutos, state = true)
-    nuevoViewModel.insertarAlarmas(nuevaAlarma)
+    alarmaViewModel.insertarAlarmas(nuevaAlarma)
     Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewContent() {
-    MyTimePicker()
+    //MyTimePicker()
 }
 
 
