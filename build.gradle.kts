@@ -7,5 +7,7 @@ plugins {
     id("androidx.room") version "$room_version" apply false
     id ("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
 
+    //Dagger Hilt
+    id("com.google.dagger.hilt.android") version "2.44" apply false
 
 }

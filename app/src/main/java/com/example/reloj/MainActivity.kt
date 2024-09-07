@@ -2,6 +2,7 @@ package com.example.reloj
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -46,14 +47,10 @@ import com.example.reloj.alarmas.ui.AlarmCard
 import com.example.reloj.ui.theme.RelojTheme
 
 
-
 class MainActivity : ComponentActivity() {
 
 
-
-    //private val alarmViewModel: AlarmaViewModel by viewModels()
-
-
+    private val alarmaViewModel: AlarmaViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +67,8 @@ class MainActivity : ComponentActivity() {
                         .background(Color.Red),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ViewContainer()
+                    ViewContainer(alarmaViewModel)
+
 
                 }
 
@@ -80,11 +78,10 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
-fun ViewContainer( ) {
+fun ViewContainer(alarmaViewModel: AlarmaViewModel) {
     var showTimePicker by remember { mutableStateOf(false) }
 
 
@@ -116,12 +113,11 @@ fun ViewContainer( ) {
                 MiUI()
 
 
-
             }
             if (showTimePicker) {
 
 
-                MyTimePicker(onDismiss = { showTimePicker = false })
+                MyTimePicker(alarmaViewModel,onDismiss = { showTimePicker = false })
             }
         }
     )
@@ -133,10 +129,13 @@ fun ViewContainer( ) {
 @Composable
 fun MiUI(
     cartasViewModel: CartasViewModel = viewModel(),
-    alarmViewModel: CambiarViewModel = viewModel()
+    alarmViewModel: CambiarViewModel = viewModel(),
+
 ) {
     val cartas = cartasViewModel.cartas
     val alarma = alarmViewModel.alarmCard
+
+
 
 
     Column {
@@ -168,14 +167,14 @@ fun MiUI(
         }
     }
 
-/*
-    @Preview(showBackground = true)
-    @Composable
-    fun PreviewLazyRowContent() {
-        RelojTheme {
-            //esto no esta afectando. Pero podria utilizar en otro momento
-        }
-    }*/
+    /*
+        @Preview(showBackground = true)
+        @Composable
+        fun PreviewLazyRowContent() {
+            RelojTheme {
+                //esto no esta afectando. Pero podria utilizar en otro momento
+            }
+        }*/
 }
 
 

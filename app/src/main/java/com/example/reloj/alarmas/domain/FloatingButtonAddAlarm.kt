@@ -2,6 +2,8 @@ package com.example.reloj.alarmas.domain
 
 
 
+
+import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,11 +12,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
 
@@ -22,7 +24,7 @@ import com.example.reloj.alarmas.data.Alarm
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTimePicker(onDismiss: () -> Unit = {}) {
+fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
     // val context = LocalContext.current
 
 
@@ -32,15 +34,9 @@ fun MyTimePicker(onDismiss: () -> Unit = {}) {
 
     // Obtén el ViewModel dentro de un Composable
     //val nuevoViewModel: AlarmaViewModel = viewModel()
-
-
-
-
-
-
-
-
-
+    val context = LocalContext.current
+    //val viewModel: AlarmaViewModel = ViewModelProvider(context as Activity).get(AlarmaViewModel::class.java)
+    //val viewModel: AlarmaViewModel = viewModel()
 
 
     Box(
@@ -81,8 +77,9 @@ fun MyTimePicker(onDismiss: () -> Unit = {}) {
                         Text("Cerrar")
                     }
                     Button(onClick = {
+                        viewModel.insertarAlarmas(Alarm(hora = state.hour, minutos = state.minute, state = true))
 
-                            AgregarAlarma(hora = state.hour, minutos = state.minute)
+                           // AgregarAlarma(nuevoViewModel, hora = state.hour, minutos = state.minute)
 
 
 
@@ -102,19 +99,19 @@ fun MyTimePicker(onDismiss: () -> Unit = {}) {
 
 
 
-
 fun AgregarAlarma(
-    alarmaViewModel: AlarmaViewModel,
+    alarmaViewModel: AlarmaViewModel? = null,
     hora: Int,
     minutos: Int
-){
-
-
-    Log.i("Corcho", "ENTRO A LA FUNCION")
-    val nuevaAlarma =
-        Alarm(hora = hora, minutos = minutos, state = true)
-    alarmaViewModel.insertarAlarmas(nuevaAlarma)
-    Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
+) {
+//ESTO PUEDO SACAR
+    if (alarmaViewModel != null) {
+        Log.i("Corcho", "ENTRO A LA FUNCION")
+        val nuevaAlarma =
+            Alarm(hora = hora, minutos = minutos, state = true)
+        alarmaViewModel.insertarAlarmas(nuevaAlarma)
+        Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
+    }
 }
 
 @Preview(showBackground = true)

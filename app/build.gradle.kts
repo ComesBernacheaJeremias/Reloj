@@ -4,8 +4,8 @@ plugins {
 
 
     id("androidx.room")
-
     id ("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 
 }
 
@@ -94,11 +94,13 @@ dependencies {
     /*View Model*/
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     // LiveData
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
+    implementation (libs.androidx.lifecycle.livedata.ktx)
     // Activity
     implementation ("androidx.activity:activity-ktx:1.9.1")
     // Fragment
     implementation ("androidx.fragment:fragment-ktx:1.8.3")
+    //Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
 
 
 }

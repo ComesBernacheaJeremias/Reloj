@@ -10,6 +10,10 @@ import kotlinx.coroutines.launch
 //maneja lo logica relacionada con la interfaz de usuario y el manejo de datos
 class AlarmaViewModel(private val repository: AlarmRepository) : ViewModel() {
 
+    // Para exponer los datos de alarmas como LiveData
+    private val _alarmas = MutableLiveData<List<Alarm>>()
+    val alarmas: LiveData<List<Alarm>> get() = _alarmas
+
     fun insertarAlarmas(alarm: Alarm) {
         viewModelScope.launch {
             repository.insertar(alarm)
