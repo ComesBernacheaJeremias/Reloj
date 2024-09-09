@@ -2,7 +2,6 @@ package com.example.reloj
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -35,8 +34,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.room.Room
+import com.example.reloj.alarmas.data.AlarmDatabase
 import com.example.reloj.alarmas.data.CambiarViewModel
 import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.categorias.domain.AddCategories
@@ -49,8 +51,20 @@ import com.example.reloj.ui.theme.RelojTheme
 
 class MainActivity : ComponentActivity() {
 
+    private val db by lazy {
+        Room.databaseBuilder(applicationContext, AlarmDatabase::class.java, "alarm_database")
+            .build()
+    }
 
-    private val alarmaViewModel: AlarmaViewModel by viewModels()
+    private val viewModel by viewModels<AlarmaViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory{
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return AlarmaViewModel(db.alarmDao) as T
+                }
+            }
+        }
+    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +74,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RelojTheme {
+                //val state by viewModel.obtenerAlarmas()
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
@@ -67,7 +83,7 @@ class MainActivity : ComponentActivity() {
                         .background(Color.Red),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ViewContainer(alarmaViewModel)
+                    ViewContainer(viewModel)
 
 
                 }
@@ -81,7 +97,7 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
-fun ViewContainer(alarmaViewModel: AlarmaViewModel) {
+fun ViewContainer(viewModel: AlarmaViewModel) {
     var showTimePicker by remember { mutableStateOf(false) }
 
 
@@ -117,7 +133,7 @@ fun ViewContainer(alarmaViewModel: AlarmaViewModel) {
             if (showTimePicker) {
 
 
-                MyTimePicker(alarmaViewModel,onDismiss = { showTimePicker = false })
+                MyTimePicker(viewModel,onDismiss = { showTimePicker = false })
             }
         }
     )

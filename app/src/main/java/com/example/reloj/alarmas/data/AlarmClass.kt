@@ -1,6 +1,7 @@
 package com.example.reloj.alarmas.data
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
@@ -11,6 +12,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import kotlinx.coroutines.flow.Flow
 
 //esto es la ENTIDAD
 @Entity(tableName = "alarms")
@@ -30,28 +32,10 @@ interface AlarmDao {
 
 
     @Query("SELECT * FROM alarms")
-    fun getAllAlarms(): List<Alarm>  // Devuelve todas las alarmas como un LiveData para observar cambios
+    fun getAllAlarms(): Flow<Alarm>  // Devuelve todas las alarmas como un LiveData para observar cambios
+    //Puede ser Flow<List<Alarm>>
 
     @Delete
     suspend fun delete(alarm: Alarm)  // Función para eliminar una alarma específica de la base de datos
 }
 
-//Base de datos
-@Database(entities = [Alarm::class], version = 1)
-abstract class AlarmDatabase : RoomDatabase() {
-    abstract fun alarmDao(): AlarmDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: AlarmDatabase? = null
-
-        fun getDatabase(context: Context): AlarmDatabase {
-            return INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(context, AlarmDatabase::class.java, "alarm_database")
-                    .build().also { INSTANCE = it }
-            }
-        }
-    }
-
-
-}

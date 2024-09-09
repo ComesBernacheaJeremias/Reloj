@@ -2,24 +2,25 @@ package com.example.reloj.alarmas.domain
 
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.LiveData
 import com.example.reloj.alarmas.data.Alarm
+import com.example.reloj.alarmas.data.AlarmDao
 import com.example.reloj.alarmas.data.AlarmDatabase
+import kotlinx.coroutines.flow.Flow
 
+/*
+//Intermediario entre Base de Datos y ViewModel-----private val alarmDao: AlarmDao-------lo que estaba en parametro para el database es context:Context
+open class AlarmRepository(private val alarmDao: AlarmDao) {
 
-
-
-//Intermediario entre Base de Datos y ViewModel-----private val alarmDao: AlarmDao
-open class AlarmRepository(context: Context) {
-
-    private val database = AlarmDatabase.getDatabase(context).alarmDao()
+    //private val database = AlarmDatabase.getDatabase(context).alarmDao()
 
 
     suspend fun insertar(alarma: Alarm) {
-        database.insert(alarma)
+        alarmDao.insert(alarma)
     }
 
-    suspend fun obtenerTodos(): List<Alarm> {
-        return database.getAllAlarms()
+    suspend fun obtenerTodos(): Flow<Alarm> {
+        return alarmDao.getAllAlarms()
     }
 /*
     suspend fun actualizar(alarma: Alarm) {
@@ -27,6 +28,7 @@ open class AlarmRepository(context: Context) {
     }*/
 
     suspend fun eliminar(alarma: Alarm) {
-        database.delete(alarma)
+        alarmDao.delete(alarma)
     }
 }
+*/
