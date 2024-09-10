@@ -97,7 +97,7 @@ fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
     }
 
 
-
+/*
 
 fun AgregarAlarma(
     alarmaViewModel: AlarmaViewModel? = null,
@@ -113,6 +113,8 @@ fun AgregarAlarma(
         Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
     }
 }
+
+ */
 
 @Preview(showBackground = true)
 @Composable

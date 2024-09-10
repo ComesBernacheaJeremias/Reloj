@@ -20,7 +20,8 @@ data class Alarm(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,  // El id es la clave primaria y se genera automáticamente
     @ColumnInfo(name = "hora") val hora: Int,       // Hora en formato 24 horas
     @ColumnInfo(name = "minutos") val minutos: Int,     // Minutes
-    @ColumnInfo(name = "state") var state: Boolean //es para saber si esta o no activado
+    @ColumnInfo(name = "state") var state: Boolean, //es para saber si esta o no activado
+    @ColumnInfo(name = "categoria_id") var categoria_id: String //es para saber la categoria
 )
 
 
