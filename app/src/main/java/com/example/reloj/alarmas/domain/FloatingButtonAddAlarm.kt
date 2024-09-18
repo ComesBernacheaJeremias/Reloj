@@ -25,18 +25,12 @@ import com.example.reloj.alarmas.data.Alarm
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
-    // val context = LocalContext.current
-
 
 
         val state = rememberTimePickerState()
         var time by remember { mutableStateOf("") }
+        val context = LocalContext.current
 
-    // Obtén el ViewModel dentro de un Composable
-    //val nuevoViewModel: AlarmaViewModel = viewModel()
-    val context = LocalContext.current
-    //val viewModel: AlarmaViewModel = ViewModelProvider(context as Activity).get(AlarmaViewModel::class.java)
-    //val viewModel: AlarmaViewModel = viewModel()
 
 
     Box(
@@ -79,10 +73,6 @@ fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
                     Button(onClick = {
                         viewModel.insertarAlarmas(Alarm(hora = state.hour, minutos = state.minute, state = true))
 
-                           // AgregarAlarma(nuevoViewModel, hora = state.hour, minutos = state.minute)
-
-
-
 
                         onDismiss()
                     }) {
@@ -97,24 +87,7 @@ fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
     }
 
 
-/*
 
-fun AgregarAlarma(
-    alarmaViewModel: AlarmaViewModel? = null,
-    hora: Int,
-    minutos: Int
-) {
-//ESTO PUEDO SACAR
-    if (alarmaViewModel != null) {
-        Log.i("Corcho", "ENTRO A LA FUNCION")
-        val nuevaAlarma =
-            Alarm(hora = hora, minutos = minutos, state = true)
-        alarmaViewModel.insertarAlarmas(nuevaAlarma)
-        Log.i("Corcho", "se guardo la nueva alarma $nuevaAlarma")
-    }
-}
-
- */
 
 @Preview(showBackground = true)
 @Composable

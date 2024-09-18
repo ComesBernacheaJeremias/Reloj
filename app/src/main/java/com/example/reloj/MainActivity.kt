@@ -74,7 +74,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RelojTheme {
-                //val state by viewModel.obtenerAlarmas()
 
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -101,10 +100,8 @@ fun ViewContainer(viewModel: AlarmaViewModel) {
     var showTimePicker by remember { mutableStateOf(false) }
 
 
-
     Scaffold(
         floatingActionButton = {
-
 
             FloatingActionButton(
                 onClick = { showTimePicker = true },

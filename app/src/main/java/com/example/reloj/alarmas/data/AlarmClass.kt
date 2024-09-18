@@ -21,7 +21,7 @@ data class Alarm(
     @ColumnInfo(name = "hora") val hora: Int,       // Hora en formato 24 horas
     @ColumnInfo(name = "minutos") val minutos: Int,     // Minutes
     @ColumnInfo(name = "state") var state: Boolean, //es para saber si esta o no activado
-    @ColumnInfo(name = "categoria_id") var categoria_id: String //es para saber la categoria
+    //@ColumnInfo(name = "categoria_id") var categoria_id: String //es para saber la categoria
 )
 
 
