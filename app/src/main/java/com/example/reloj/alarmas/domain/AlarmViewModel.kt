@@ -14,25 +14,19 @@ import kotlinx.coroutines.launch
 class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
 
 
+
     fun insertarAlarmas(alarm: Alarm) {
         viewModelScope.launch {
             dao.insert(alarm)
         }
     }
 
-    fun obtenerAlarmas():  MutableLiveData<List<Alarm>> {
-               val usuariosLiveData = MutableLiveData<List<Alarm>>()
-        viewModelScope.launch {
-            usuariosLiveData.value = dao.getAllAlarms()
-        }
-        return usuariosLiveData
+    fun obtenerAlarmas(): LiveData<Alarm> {
+        return dao.getAllAlarms()
     }
 
-    fun obtenerHora(): MutableLiveData<List<Int>> {
-        val lista = MutableLiveData<List<Int>>()
-        lista.value  = dao.getHoraAlarms()
-        return lista
-
+    fun obtenerHora() {
+        dao.getHoraAlarms()
     }
 
 

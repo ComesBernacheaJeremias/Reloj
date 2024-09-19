@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -65,6 +66,13 @@ class MainActivity : ComponentActivity() {
             }
         }
     )
+
+
+
+
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,6 +155,7 @@ fun MiUI(
 ) {
     val cartas = cartasViewModel.cartas
     //val alarma = alarmViewModel.alarmCard
+
 
 
 

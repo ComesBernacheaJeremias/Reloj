@@ -10,7 +10,6 @@ import androidx.room.RoomDatabase
 abstract class AlarmDatabase : RoomDatabase() {
     abstract val alarmDao: AlarmDao
 
-
 }
 /*
     companion object {
@@ -24,5 +23,7 @@ abstract class AlarmDatabase : RoomDatabase() {
             }
         }
     }
-*/
+
+ */
+
 
