@@ -33,8 +33,15 @@ interface AlarmDao {
 
 
     @Query("SELECT * FROM alarms")
-    fun getAllAlarms(): Flow<Alarm>  // Devuelve todas las alarmas como un LiveData para observar cambios
+    fun getAllAlarms(): List<Alarm>  // Devuelve todas las alarmas como un LiveData para observar cambios
     //Puede ser Flow<List<Alarm>>
+
+    @Query("SELECT hora FROM alarms ORDER BY hora ASC")
+    fun getHoraAlarms(): List<Int>
+    @Query("SELECT minutos FROM alarms ORDER BY minutos ASC")
+    fun getMinutosAlarms(): Flow<Int>
+   /* @Query("SELECT * FROM alarms ORDER BY state ASC")
+    fun getStateAlarms(): Flow<Alarm>*/
 
     @Delete
     suspend fun delete(alarm: Alarm)  // Función para eliminar una alarma específica de la base de datos

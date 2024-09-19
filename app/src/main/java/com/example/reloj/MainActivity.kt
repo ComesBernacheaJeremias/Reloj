@@ -38,8 +38,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
+import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.data.AlarmDatabase
-import com.example.reloj.alarmas.data.CambiarViewModel
 import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.categorias.domain.AddCategories
 import com.example.reloj.categorias.data.CartasViewModel
@@ -94,7 +94,6 @@ class MainActivity : ComponentActivity() {
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
 @Composable
 fun ViewContainer(viewModel: AlarmaViewModel) {
     var showTimePicker by remember { mutableStateOf(false) }
@@ -123,7 +122,7 @@ fun ViewContainer(viewModel: AlarmaViewModel) {
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                MiUI()
+                MiUI(viewModel)
 
 
             }
@@ -141,12 +140,13 @@ fun ViewContainer(viewModel: AlarmaViewModel) {
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MiUI(
-    cartasViewModel: CartasViewModel = viewModel(),
-    alarmViewModel: CambiarViewModel = viewModel(),
+    viewModel: AlarmaViewModel,
+    cartasViewModel: CartasViewModel = viewModel()
+
 
 ) {
     val cartas = cartasViewModel.cartas
-    val alarma = alarmViewModel.alarmCard
+    //val alarma = alarmViewModel.alarmCard
 
 
 
@@ -171,8 +171,8 @@ fun MiUI(
         ) {
             Column {
                 LazyColumn {
-                    items(alarma) { alarma ->
-                        AlarmCard(title = alarma, text = "Descripción", value = false)
+                    item {
+                        AlarmCard(viewModel)
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }
