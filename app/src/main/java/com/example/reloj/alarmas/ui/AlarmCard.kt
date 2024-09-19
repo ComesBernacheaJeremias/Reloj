@@ -1,6 +1,7 @@
 package com.example.reloj.alarmas.ui
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +26,8 @@ fun AlarmCard(
 
 
 
-    val result = viewModel.obtenerAlarmas()
+    val result = viewModel.obtenerAlarmas().value
+    Log.i("Corcho", result.toString())
 
 
 
