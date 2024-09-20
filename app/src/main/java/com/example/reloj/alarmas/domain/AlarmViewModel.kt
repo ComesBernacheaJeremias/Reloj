@@ -22,11 +22,14 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
     }
 
     fun obtenerAlarmas(): LiveData<List<Alarm>>{
-         return dao.getAllAlarms()
+        val todasLasAlarmas: LiveData<List<Alarm>> = dao.getAllAlarms().asLiveData()
+
+        return todasLasAlarmas
     }
 
-    fun obtenerHora() {
-        dao.getHoraAlarms()
+    fun obtenerHora(): LiveData<List<Int>> {
+        val hora: LiveData<List<Int>> = dao.getHoraAlarms().asLiveData()
+        return hora
     }
 
 

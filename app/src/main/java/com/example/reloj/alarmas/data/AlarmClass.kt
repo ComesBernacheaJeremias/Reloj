@@ -33,11 +33,11 @@ interface AlarmDao {
 
 
     @Query("SELECT * FROM alarms")
-    fun getAllAlarms(): LiveData<List<Alarm>> // Devuelve todas las alarmas como un LiveData para observar cambios
+    fun getAllAlarms(): Flow<List<Alarm>> // Devuelve todas las alarmas como un LiveData para observar cambios
     //Puede ser Flow<List<Alarm>>
 
     @Query("SELECT hora FROM alarms ORDER BY hora ASC")
-    fun getHoraAlarms(): List<Int>
+    fun getHoraAlarms(): Flow<List<Int>>
     @Query("SELECT minutos FROM alarms ORDER BY minutos ASC")
     fun getMinutosAlarms(): Flow<Int>
    /* @Query("SELECT * FROM alarms ORDER BY state ASC")
