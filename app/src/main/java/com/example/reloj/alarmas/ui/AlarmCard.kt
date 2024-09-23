@@ -22,7 +22,7 @@ import androidx.lifecycle.Observer
 import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.domain.AlarmaViewModel
 
-
+/*
 @Composable
 fun AlarmCard(
     viewModel: AlarmaViewModel
@@ -52,22 +52,8 @@ fun AlarmCard(
             ItemCard(item = item)
         }
     }
-}
+}*/
 
-@Composable
-fun ItemCard(item: Alarm) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "ID: ${item.id}")
-            Text(text = "Nombre: ${item.hora}")
-            Text(text = "Descripción: ${item.minutos}")
-        }
-    }
-}
 
 
 
