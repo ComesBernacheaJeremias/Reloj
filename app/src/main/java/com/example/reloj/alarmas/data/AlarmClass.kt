@@ -44,6 +44,9 @@ interface AlarmDao {
    /* @Query("SELECT * FROM alarms ORDER BY state ASC")
     fun getStateAlarms(): Flow<Alarm>*/
 
+    @Query("SELECT * FROM alarms WHERE state==1") //para acceder a los que tengan estado activado
+    fun getUsersStateTrue(): List<Alarm>
+
     @Update
     suspend fun update(alarm: Alarm)
 
