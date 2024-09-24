@@ -27,11 +27,13 @@ fun SetAlarm(alarm: Alarm) {
 
     // Creamos un Intent para el BroadcastReceiver que manejará la alarma
     val intent = Intent(context, AlarmReceiver::class.java)
+    intent.putExtra("hora", hora)
+    intent.putExtra("minutos", minutos)
 
 
     // Creamos un PendingIntent que se activará cuando la alarma suene
     val pendingIntent =
-        PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(context, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
     // Configuramos la hora exacta a la que la alarma debe dispararse
     val calendar = Calendar.getInstance().apply {
@@ -40,10 +42,16 @@ fun SetAlarm(alarm: Alarm) {
         set(Calendar.SECOND, 0) // Aseguramos que los segundos estén en 0
     }
     Log.i("Corcho", "la alarma sonara  ${hora}, ${minutos}")
+    if (calendar.timeInMillis <= System.currentTimeMillis()) {
+        // Si la hora ya pasó, programamos la alarma para el día siguiente
+        calendar.add(Calendar.DAY_OF_YEAR, 1)
+        Log.i("Corcho_Alarma", "la hora ya paso, pasa para el dia siguiente $hora : $minutos")
+    }
 
-    // Programamos la alarma para que se dispare en la hora exacta
     if (alarm.state) {
+        // Programamos la alarma para que se dispare en la hora exacta
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        Log.i("Corcho", "se guardo la alarma $calendar")
     }else{
         Log.i("Corcho", "NO SE PUDO ACTIVAR")
         Log.i("Corcho", "tengo que mostrar calendar: ${calendar}, ${hora}, ${minutos}")

@@ -73,12 +73,12 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                     if (checked) {
                         Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos} esta activada")
                         Log.i("Corcho", "la hora esta ${item.state}")
-                        activado(viewModel, item)
+                        Activado(viewModel, item)
 
 
                     } else {
                         Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos}  esta Desactivada ${item}...${item.state}:)")
-                        desactivado(viewModel, item)
+                        Desactivado(viewModel, item)
                     }
                 }
             }
@@ -86,14 +86,14 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
     }
 }
 @Composable
-fun activado(viewModel: AlarmaViewModel, hora:Alarm){
+fun Activado(viewModel: AlarmaViewModel, hora:Alarm){
     Log.i("Corcho", "entro en activado. viewmodel = ${viewModel}....hora = ${hora}")
     viewModel.actualizarAlarma(hora)
     SetAlarm(hora)
 
 
 }
-fun desactivado(viewModel: AlarmaViewModel, hora:Alarm){
+fun Desactivado(viewModel: AlarmaViewModel, hora:Alarm){
     Log.i("Corcho", "entro en DESACTIVADO. ..hora = ${hora}")
     val updatedHora = Alarm(id = hora.id, hora = hora.hora, minutos = hora.minutos, state = false)
     viewModel.actualizarAlarma(updatedHora)
