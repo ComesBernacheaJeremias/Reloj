@@ -34,23 +34,12 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
 
 
 
-    /*
-        fun obtenerAlarmas(): MutableLiveData<Flow<Alarm>> {
-            val usuariosLiveData = MutableLiveData<Flow<Alarm>>()
-            viewModelScope.launch {
-                usuariosLiveData.value = dao.getAllAlarms()
-            }
-            return usuariosLiveData
-        }
-
-     */
-    /*
         fun actualizarAlarma(alarm: Alarm) {
             viewModelScope.launch {
-                repository.actualizar(alarm)
+                dao.update(alarm)
             }
         }
-    */
+
     fun eliminarAlarma(alarm: Alarm) {
         viewModelScope.launch {
             dao.delete(alarm)
@@ -58,8 +47,3 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
     }
 }
 
-sealed interface ContactEvent {
-    data class Hora(val hora: String) : ContactEvent
-    data class Minutos(val minut: String) : ContactEvent
-
-}

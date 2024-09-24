@@ -16,7 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
+import com.example.reloj.alarmas.domain.AlarmaViewModel
 
 /*
 @Composable
@@ -37,7 +39,7 @@ fun ItemCard(item: Alarm) {
 
 
 @Composable
-fun ItemCard(item: Alarm) {
+fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -63,17 +65,35 @@ fun ItemCard(item: Alarm) {
                         checked = checked,
                         onCheckedChange = {
                             checkedState.value = it
+                            item.state = true
 
                         }
                     )
                     if (checked) {
                         Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos} esta activada")
+                        Log.i("Corcho", "la hora esta ${item.state}")
+                        activado(viewModel, item)
+
 
                     } else {
-                        Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos}  esta Desactivada :)")
+                        Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos}  esta Desactivada ${item}...${item.state}:)")
+                        desactivado(viewModel, item)
                     }
                 }
             }
         }
     }
+}
+fun activado(viewModel: AlarmaViewModel, hora:Alarm){
+    Log.i("Corcho", "entro en activado. viewmodel = ${viewModel}....hora = ${hora}")
+    viewModel.actualizarAlarma(hora)
+    Log.i("Corcho", "entro en DESACTIVADO. viewmodel = ${viewModel}....hora = ${hora}")
+
+}
+fun desactivado(viewModel: AlarmaViewModel, hora:Alarm){
+    Log.i("Corcho", "entro en DESACTIVADO. ..hora = ${hora}")
+    val updatedHora = Alarm(id = hora.id, hora = hora.hora, minutos = hora.minutos, state = false)
+    viewModel.actualizarAlarma(updatedHora)
+    Log.i("Corcho", "entro en DESACTIVADO2. ...hora = ${updatedHora}")
+
 }

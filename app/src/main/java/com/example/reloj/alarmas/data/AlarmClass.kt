@@ -12,6 +12,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 //esto es la ENTIDAD
@@ -42,6 +43,10 @@ interface AlarmDao {
     fun getMinutosAlarms(): Flow<Int>
    /* @Query("SELECT * FROM alarms ORDER BY state ASC")
     fun getStateAlarms(): Flow<Alarm>*/
+
+    @Update
+    suspend fun update(alarm: Alarm)
+
 
     @Delete
     suspend fun delete(alarm: Alarm)  // Función para eliminar una alarma específica de la base de datos

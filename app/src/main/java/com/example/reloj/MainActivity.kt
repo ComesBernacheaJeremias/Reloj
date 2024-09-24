@@ -193,7 +193,7 @@ fun MiUI(
                 LazyColumn(modifier = Modifier
                     .weight(1f)) {
                     items(alarmas) { alarmas ->
-                        ItemCard(item =alarmas) }
+                        ItemCard(viewModel, item =alarmas) }
                     item {
                         Spacer(modifier = Modifier.height(4.dp))
                     }
