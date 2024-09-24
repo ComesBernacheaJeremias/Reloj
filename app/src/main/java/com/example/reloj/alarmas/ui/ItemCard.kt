@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.domain.AlarmaViewModel
+import com.example.reloj.alarmas.domain.SetAlarm
 
 /*
 @Composable
@@ -84,10 +85,12 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
         }
     }
 }
+@Composable
 fun activado(viewModel: AlarmaViewModel, hora:Alarm){
     Log.i("Corcho", "entro en activado. viewmodel = ${viewModel}....hora = ${hora}")
     viewModel.actualizarAlarma(hora)
-    Log.i("Corcho", "entro en DESACTIVADO. viewmodel = ${viewModel}....hora = ${hora}")
+    SetAlarm(hora)
+
 
 }
 fun desactivado(viewModel: AlarmaViewModel, hora:Alarm){
