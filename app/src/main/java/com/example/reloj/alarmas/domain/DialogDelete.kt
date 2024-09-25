@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.reloj.alarmas.data.Alarm
 
-@Preview
+
 @Composable
-    fun alertDialogDoc() {
+    fun AlertDialogDelete(viewModel: AlarmaViewModel, alarm: Alarm) {
         val openDialog = remember { mutableStateOf(true) }
 
         if (openDialog.value) {
@@ -19,17 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
                     openDialog.value = false
                 },
                 title = {
-                    Text(text = "Desea eliminar esta alarma?")
-                },
-                text = {
-                    Text(
-                        "Descripción de la Alarma (capaz no)"
-                    )
+                    Text(text = "¿Desea eliminar esta alarma ${alarm.hora}: ${alarm.minutos}?")
                 },
                 confirmButton = {
                     TextButton(
                         onClick = {
                             //poner codigo de eliminar
+                            viewModel.eliminarAlarma(alarm)
                             openDialog.value = false
                         }
                     ) {
