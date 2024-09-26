@@ -52,6 +52,7 @@ import com.example.reloj.categorias.data.CartasViewModel
 import com.example.reloj.categorias.ui.CategoriesCard
 import com.example.reloj.alarmas.domain.MyTimePicker
 import com.example.reloj.alarmas.ui.ItemCard
+import com.example.reloj.categorias.domain.CategoriesViewModel
 import com.example.reloj.ui.theme.RelojTheme
 
 
@@ -62,11 +63,20 @@ class MainActivity : ComponentActivity() {
             .build()
     }
 
-    private val viewModel by viewModels<AlarmaViewModel>(
+    private val alarmViewModel by viewModels<AlarmaViewModel>(
         factoryProducer = {
             object : ViewModelProvider.Factory{
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return AlarmaViewModel(db.alarmDao) as T
+                }
+            }
+        }
+    )
+    private val viewModelCategories by viewModels<CategoriesViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory{
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return CategoriesViewModel(db.categoriesDao) as T
                 }
             }
         }
@@ -95,7 +105,7 @@ class MainActivity : ComponentActivity() {
                         .background(Color.Red),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ViewContainer(viewModel)
+                    ViewContainer(alarmViewModel, viewModelCategories)
 
 
                 }
@@ -108,7 +118,7 @@ class MainActivity : ComponentActivity() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ViewContainer(viewModel: AlarmaViewModel) {
+fun ViewContainer(alarmViewModel: AlarmaViewModel, categoriesViewModel: CategoriesViewModel) {
     var showTimePicker by remember { mutableStateOf(false) }
 
 
@@ -135,14 +145,14 @@ fun ViewContainer(viewModel: AlarmaViewModel) {
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                MiUI(viewModel)
+                MiUI(alarmViewModel, categoriesViewModel)
 
 
             }
             if (showTimePicker) {
 
 
-                MyTimePicker(viewModel,onDismiss = { showTimePicker = false })
+                MyTimePicker(alarmViewModel,onDismiss = { showTimePicker = false })
             }
         }
     )
@@ -153,14 +163,15 @@ fun ViewContainer(viewModel: AlarmaViewModel) {
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MiUI(
-    viewModel: AlarmaViewModel,
+    alarmViewModel: AlarmaViewModel,
+    categoriesViewModel: CategoriesViewModel,
     cartasViewModel: CartasViewModel = viewModel()
 
 
 ) {
     val cartas = cartasViewModel.cartas
-    //val alarma = alarmViewModel.alarmCard
-    val alarmas by viewModel.obtenerAlarmas().observeAsState(emptyList())
+    val alarmas by alarmViewModel.obtenerAlarmas().observeAsState(emptyList())
+    val categorias by categoriesViewModel.obtenerCategorias().observeAsState(emptyList())
     Log.i("Corcho", alarmas.toString())
 
 
@@ -172,11 +183,15 @@ fun MiUI(
     Column {
         LazyRow {
             item {
-                CategoriesCard(title = "Todos", text = "Todos", value = false)
+                CategoriesCard(title = "Todos", text = "Todos", state = false)
                 Spacer(modifier = Modifier.width(4.dp))
             }
             items(cartas) { carta ->
-                CategoriesCard(title = carta, text = "Descripción", value = false)
+                CategoriesCard(title = carta, text = "Descripción", state = false)
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+            items(categorias) { categorias ->
+                //CategoriesCard(title = carta, text = "Descripción", value = false)
                 Spacer(modifier = Modifier.width(4.dp))
             }
             item { AddCategories() }
@@ -193,7 +208,7 @@ fun MiUI(
                 LazyColumn(modifier = Modifier
                     .weight(1f)) {
                     items(alarmas) { alarmas ->
-                        ItemCard(viewModel, item =alarmas) }
+                        ItemCard(alarmViewModel, item =alarmas) }
                     item {
                         Spacer(modifier = Modifier.height(4.dp))
                     }

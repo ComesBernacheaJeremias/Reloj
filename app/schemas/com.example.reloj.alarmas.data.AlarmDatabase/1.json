@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6c199c2a0915442031b730143f013502",
+    "identityHash": "50c203cba64e06946131327cf396fe8b",
     "entities": [
       {
         "tableName": "alarms",
@@ -41,12 +41,32 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "categories_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoria` TEXT NOT NULL, PRIMARY KEY(`categoria`))",
+        "fields": [
+          {
+            "fieldPath": "categoria",
+            "columnName": "categoria",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "categoria"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6c199c2a0915442031b730143f013502')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '50c203cba64e06946131327cf396fe8b')"
     ]
   }
 }

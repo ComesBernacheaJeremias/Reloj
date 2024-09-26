@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -28,7 +29,8 @@ import androidx.compose.ui.window.Dialog
 
 
 @Composable
-fun CategoriesCard(title: String, text: String, value: Boolean) {
+fun CategoriesCard(title: String, text: String, state: Boolean) {
+    //lo que tengo que recibir por parametros es un categories:Categories
 
     Card(
         modifier = Modifier
@@ -53,11 +55,22 @@ fun CategoriesCard(title: String, text: String, value: Boolean) {
                     )
                 }
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    val checkedState = remember { mutableStateOf(false) }
+                    val checked = checkedState.value
+
                     Text(
                         text = text,
                         modifier = Modifier.fillMaxWidth(),
                         fontSize = 15.sp,
                         textAlign = TextAlign.Center
+                    )
+                    Switch(
+                        checked = checked,
+                        onCheckedChange = {
+                            checkedState.value = it
+
+
+                        }
                     )
 
                 }
@@ -71,5 +84,6 @@ fun CategoriesCard(title: String, text: String, value: Boolean) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCard() {
+    CategoriesCard(title = "hola", text = "texto", state = true)
 
 }
