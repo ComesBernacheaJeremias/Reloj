@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "50c203cba64e06946131327cf396fe8b",
+    "identityHash": "d6624fac4d3d6d5708b2ac0e70f6133f",
     "entities": [
       {
         "tableName": "alarms",
@@ -44,12 +44,18 @@
       },
       {
         "tableName": "categories_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoria` TEXT NOT NULL, PRIMARY KEY(`categoria`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoria` TEXT NOT NULL, `state` INTEGER NOT NULL, PRIMARY KEY(`categoria`))",
         "fields": [
           {
             "fieldPath": "categoria",
             "columnName": "categoria",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -66,7 +72,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '50c203cba64e06946131327cf396fe8b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd6624fac4d3d6d5708b2ac0e70f6133f')"
     ]
   }
 }

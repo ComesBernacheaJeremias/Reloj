@@ -13,6 +13,7 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Update
+import com.example.reloj.categorias.data.Categories
 import kotlinx.coroutines.flow.Flow
 
 //esto es la ENTIDAD
@@ -22,7 +23,7 @@ data class Alarm(
     @ColumnInfo(name = "hora") val hora: Int,       // Hora en formato 24 horas
     @ColumnInfo(name = "minutos") val minutos: Int,     // Minutes
     @ColumnInfo(name = "state") var state: Boolean, //es para saber si esta o no activado
-    //@ColumnInfo(name = "categoria") val categoria: Categories -->(nombre y state)//es para saber la categoria
+    @ColumnInfo(name = "categoria") val categoria: Categories//es para saber la categoria
 )
 
 

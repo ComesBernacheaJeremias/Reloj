@@ -22,10 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reloj.categorias.data.CartasViewModel
+import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.ui.dialog.DialogCardAddCategories
 
 @Composable
-fun AddCategories() {
+fun AddCategories(categoriesViewModel: CategoriesViewModel) {
 
     val openDialog = remember { mutableStateOf(false) }
 
@@ -46,17 +47,16 @@ fun AddCategories() {
     }
     // Muestra el diálogo si openDialog es true
     if (openDialog.value) {
-        AlertDialogDoc(openDialog)
+        AlertDialogDoc(openDialog, categoriesViewModel)
 
     }
 }
 
 @Composable
 fun AlertDialogDoc(
-    openDialog: MutableState<Boolean>, cartasViewModel: CartasViewModel = viewModel()
+    openDialog: MutableState<Boolean>,categoriesViewModel: CategoriesViewModel
 ) {
     var text by rememberSaveable { mutableStateOf("") }
-    val cartas = cartasViewModel.cartas
     Log.i("Corcho", "el texto del alertDIalog es ${text}")
 
 
@@ -71,7 +71,8 @@ fun AlertDialogDoc(
             DialogCardAddCategories(openDialog,
                 onConfirm  = {categoryName->
                     if (categoryName.isNotEmpty()){
-                    cartasViewModel.agregarCarta(categoryName)}
+                        categoriesViewModel.insertarCategoria(Categories(categoryName, false))
+                   }
                     openDialog.value = false // Cierra el diálogo
                     Log.i("Corcho", "el categoriname es ${categoryName}")
 

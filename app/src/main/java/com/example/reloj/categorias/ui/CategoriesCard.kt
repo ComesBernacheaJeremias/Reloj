@@ -26,10 +26,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.reloj.categorias.data.Categories
+import com.example.reloj.categorias.domain.CategoriesViewModel
 
 
 @Composable
-fun CategoriesCard(title: String, text: String, state: Boolean) {
+fun CategoriesCard(categoriesViewModel: CategoriesViewModel, categories: Categories) {
     //lo que tengo que recibir por parametros es un categories:Categories
 
     Card(
@@ -44,26 +46,20 @@ fun CategoriesCard(title: String, text: String, state: Boolean) {
             Column {
 
                 Box(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = title,
+                        text = categories.categoria,
                         modifier = Modifier.fillMaxWidth(),
                         fontSize = 30.sp,
                         textAlign = TextAlign.Center
                     )
                 }
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     val checkedState = remember { mutableStateOf(false) }
                     val checked = checkedState.value
 
-                    Text(
-                        text = text,
-                        modifier = Modifier.fillMaxWidth(),
-                        fontSize = 15.sp,
-                        textAlign = TextAlign.Center
-                    )
                     Switch(
                         checked = checked,
                         onCheckedChange = {
@@ -71,7 +67,11 @@ fun CategoriesCard(title: String, text: String, state: Boolean) {
 
 
                         }
+
                     )
+                    if (checked) {
+                        categoriesViewModel.actualizarCategorias(Categories(categories.categoria, true))
+                    }else{  categoriesViewModel.actualizarCategorias(Categories(categories.categoria, false))}
 
                 }
             }
@@ -84,6 +84,6 @@ fun CategoriesCard(title: String, text: String, state: Boolean) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCard() {
-    CategoriesCard(title = "hola", text = "texto", state = true)
+
 
 }

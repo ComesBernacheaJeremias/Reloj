@@ -52,7 +52,9 @@ import com.example.reloj.categorias.data.CartasViewModel
 import com.example.reloj.categorias.ui.CategoriesCard
 import com.example.reloj.alarmas.domain.MyTimePicker
 import com.example.reloj.alarmas.ui.ItemCard
+import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
+import com.example.reloj.categorias.ui.AllCategoriesCard
 import com.example.reloj.ui.theme.RelojTheme
 
 
@@ -183,18 +185,18 @@ fun MiUI(
     Column {
         LazyRow {
             item {
-                CategoriesCard(title = "Todos", text = "Todos", state = false)
+                AllCategoriesCard()
                 Spacer(modifier = Modifier.width(4.dp))
             }
-            items(cartas) { carta ->
-                CategoriesCard(title = carta, text = "Descripción", state = false)
+            items(categorias) { categorias ->
+                CategoriesCard(categoriesViewModel, categorias)
                 Spacer(modifier = Modifier.width(4.dp))
             }
             items(categorias) { categorias ->
                 //CategoriesCard(title = carta, text = "Descripción", value = false)
                 Spacer(modifier = Modifier.width(4.dp))
             }
-            item { AddCategories() }
+            item { AddCategories(categoriesViewModel) }
 
         }
 

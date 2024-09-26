@@ -26,22 +26,6 @@ import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.alarmas.domain.AlertDialogDelete
 import com.example.reloj.alarmas.domain.SetAlarm
 
-/*
-@Composable
-fun ItemCard(item: Alarm) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "ID: ${item.id}")
-            Text(text = "Nombre: ${item.hora}")
-            Text(text = "Descripción: ${item.minutos}")
-        }
-    }
-}
-*/
 
 
 @Composable
