@@ -93,7 +93,7 @@ fun Activado(viewModel: AlarmaViewModel, hora:Alarm){
 }
 fun Desactivado(viewModel: AlarmaViewModel, hora:Alarm){
     Log.i("Corcho", "entro en DESACTIVADO. ..hora = ${hora}")
-    val updatedHora = Alarm(id = hora.id, hora = hora.hora, minutos = hora.minutos, state = false)
+    val updatedHora = Alarm(id = hora.id, hora = hora.hora, minutos = hora.minutos, state = false, categoria = hora.categoria)
     viewModel.actualizarAlarma(updatedHora)
     Log.i("Corcho", "entro en DESACTIVADO2. ...hora = ${updatedHora}")
 

@@ -71,7 +71,7 @@ fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
                         Text("Cerrar")
                     }
                     Button(onClick = {
-                        viewModel.insertarAlarmas(Alarm(hora = state.hour, minutos = state.minute, state = true))
+                      //  viewModel.insertarAlarmas(Alarm(hora = state.hour, minutos = state.minute, state = true, categoria =  ))
 
 
                         onDismiss()
