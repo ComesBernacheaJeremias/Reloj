@@ -25,7 +25,7 @@ import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.alarmas.domain.AlertDialogDelete
 import com.example.reloj.alarmas.domain.SetAlarm
-
+import com.example.reloj.categorias.data.Categories
 
 
 @Composable

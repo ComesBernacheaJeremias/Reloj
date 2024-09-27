@@ -30,7 +30,6 @@ fun SelectCategory(categories: Categories, onCategorySelected: (Categories) -> U
             checked = checkedState.value,
             onCheckedChange = { checkedState.value = it
                 onCategorySelected(categories)}
-            //checkedState.value = it
         )
         Box(
             modifier = Modifier
@@ -43,21 +42,3 @@ fun SelectCategory(categories: Categories, onCategorySelected: (Categories) -> U
     }
 
 }
-
-
-
-
-/*
-@Composable
-fun CheckedCategories(categoriesViewModel: CategoriesViewModel) {
-    val categorias by categoriesViewModel.obtenerCategorias().observeAsState(emptyList())
-
-
-    LazyColumn {
-        items(categorias) { categories ->
-            SelectCategory(categories = categories)
-            Spacer(modifier = Modifier.width(4.dp))
-        }
-    }
-}
-*/

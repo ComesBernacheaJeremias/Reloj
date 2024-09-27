@@ -58,6 +58,8 @@ import com.example.reloj.categorias.ui.AllCategoriesCard
 import com.example.reloj.ui.theme.RelojTheme
 
 
+
+
 class MainActivity : ComponentActivity() {
 
     private val db by lazy {
@@ -175,6 +177,7 @@ fun MiUI(
     val alarmas by alarmViewModel.obtenerAlarmas().observeAsState(emptyList())
     val categorias by categoriesViewModel.obtenerCategorias().observeAsState(emptyList())
     Log.i("Corcho", alarmas.toString())
+    var categorySelected by remember { mutableStateOf<Categories?>(null) }
 
 
 
@@ -189,11 +192,16 @@ fun MiUI(
                 Spacer(modifier = Modifier.width(4.dp))
             }
             items(categorias) { categorias ->
-                CategoriesCard(categoriesViewModel, categorias)
+                CategoriesCard(categoriesViewModel, categorias, onCategorySelected = { selectedCategory ->
+                    categorySelected = selectedCategory
+                })
                 Spacer(modifier = Modifier.width(4.dp))
             }
             item { AddCategories(categoriesViewModel) }
 
+        }
+        if (categorySelected != null){
+            //CODIGOO
         }
 
         Box(

@@ -31,7 +31,7 @@ import com.example.reloj.categorias.domain.CategoriesViewModel
 
 
 @Composable
-fun CategoriesCard(categoriesViewModel: CategoriesViewModel, categories: Categories) {
+fun CategoriesCard(categoriesViewModel: CategoriesViewModel, categories: Categories, onCategorySelected: (Categories) -> Unit) {
 
 
     Card(
@@ -40,6 +40,7 @@ fun CategoriesCard(categoriesViewModel: CategoriesViewModel, categories: Categor
             .width(150.dp)
             .clickable {
                 //que pasa cuando hago click
+                onCategorySelected(categories)
             },
     ) {
         Box(
