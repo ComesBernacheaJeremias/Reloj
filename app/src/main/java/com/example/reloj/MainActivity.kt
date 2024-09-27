@@ -192,10 +192,6 @@ fun MiUI(
                 CategoriesCard(categoriesViewModel, categorias)
                 Spacer(modifier = Modifier.width(4.dp))
             }
-            items(categorias) { categorias ->
-                //CategoriesCard(title = carta, text = "Descripción", value = false)
-                Spacer(modifier = Modifier.width(4.dp))
-            }
             item { AddCategories(categoriesViewModel) }
 
         }

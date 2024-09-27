@@ -52,6 +52,7 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                         Text(text = "ID: ${item.id}")
                         Text(text = "Nombre: ${item.hora}")
                         Text(text = "Descripción: ${item.minutos}")
+                        Text(text = "Categoria: ${item.categoria.categoria}")
 
                     }
 

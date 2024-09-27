@@ -32,12 +32,15 @@ import com.example.reloj.categorias.domain.CategoriesViewModel
 
 @Composable
 fun CategoriesCard(categoriesViewModel: CategoriesViewModel, categories: Categories) {
-    //lo que tengo que recibir por parametros es un categories:Categories
+
 
     Card(
         modifier = Modifier
             .height(80.dp)
-            .width(150.dp),
+            .width(150.dp)
+            .clickable {
+                //que pasa cuando hago click
+            },
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
