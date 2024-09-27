@@ -23,31 +23,41 @@ import com.example.reloj.categorias.domain.CategoriesViewModel
 
 
 @Composable
-fun SelectCategory(categories: Categories){
-    val checkedState = remember { mutableStateOf(true) }
+fun SelectCategory(categories: Categories, onCategorySelected: (Categories) -> Unit) {
+    val checkedState = remember { mutableStateOf(false) }
     Row {
         Checkbox(
             checked = checkedState.value,
-            onCheckedChange = { checkedState.value = it }
+            onCheckedChange = { checkedState.value = it
+                onCategorySelected(categories)}
+            //checkedState.value = it
         )
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .align(Alignment.CenterVertically)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .align(Alignment.CenterVertically)
+        ) {
             Text(text = categories.categoria)
 
         }
     }
+
 }
 
+
+
+
+/*
 @Composable
-fun checkedCategories(viewModel: CategoriesViewModel){
-    val getCategories = viewModel.obtenerCategorias().value
-    //val categorias by categoriesViewModel.obtenerCategorias().observeAsState(emptyList())
+fun CheckedCategories(categoriesViewModel: CategoriesViewModel) {
+    val categorias by categoriesViewModel.obtenerCategorias().observeAsState(emptyList())
 
 
-LazyColumn {
-    items(categories) { categories ->
-        SelectCategory(categories = categories)
-        Spacer(modifier = Modifier.width(4.dp))
+    LazyColumn {
+        items(categorias) { categories ->
+            SelectCategory(categories = categories)
+            Spacer(modifier = Modifier.width(4.dp))
+        }
     }
 }
+*/

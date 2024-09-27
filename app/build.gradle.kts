@@ -103,5 +103,8 @@ dependencies {
     //Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.44")
 
+    //Gson
+    implementation ("com.google.code.gson:gson:2.10.1")
+
 
 }

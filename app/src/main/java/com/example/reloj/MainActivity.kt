@@ -154,7 +154,7 @@ fun ViewContainer(alarmViewModel: AlarmaViewModel, categoriesViewModel: Categori
             if (showTimePicker) {
 
 
-                MyTimePicker(alarmViewModel,onDismiss = { showTimePicker = false })
+                MyTimePicker(alarmViewModel,categoriesViewModel,onDismiss = { showTimePicker = false })
             }
         }
     )

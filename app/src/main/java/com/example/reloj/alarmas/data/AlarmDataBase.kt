@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.data.CategoriesDao
+import com.example.reloj.categorias.domain.Converters
 
 //Base de datos
 @Database(entities = [Alarm::class, Categories::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class AlarmDatabase : RoomDatabase() {
     abstract val alarmDao: AlarmDao
     abstract val categoriesDao: CategoriesDao
