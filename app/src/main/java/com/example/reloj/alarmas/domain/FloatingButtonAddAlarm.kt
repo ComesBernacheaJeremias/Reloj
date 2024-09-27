@@ -16,10 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.reloj.alarmas.data.Alarm
 
+import com.example.reloj.alarmas.data.Alarm
+import com.example.reloj.categorias.data.Categories
+
+import com.example.reloj.categorias.ui.checkedCategories
 
 
 @Composable
@@ -59,6 +60,7 @@ fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
                     // Mostrar la hora seleccionada
                     Text(text = "Hora seleccionada H:M = ${state.hour} : ${state.minute}")
                     time = "${state.hour} : ${state.minute}"
+                        checkedCategories(viewModel)
                 }
 
 
@@ -71,7 +73,7 @@ fun MyTimePicker(viewModel: AlarmaViewModel,onDismiss: () -> Unit = {}) {
                         Text("Cerrar")
                     }
                     Button(onClick = {
-                      //  viewModel.insertarAlarmas(Alarm(hora = state.hour, minutos = state.minute, state = true, categoria =  ))
+                        viewModel.insertarAlarmas(Alarm(hora = state.hour, minutos = state.minute, state = true, categoria =  ))
 
 
                         onDismiss()
