@@ -23,6 +23,11 @@ class CategoriesViewModel(private val dao: CategoriesDao) : ViewModel() {
 
         return todasLasCategorias
     }
+    fun obtenerCategoriasActivadas(): LiveData<List<Categories>>{
+        val categoriasActivadas: LiveData<List<Categories>> = dao.getCategoryActivate().asLiveData()
+
+        return categoriasActivadas
+    }
 
 
 

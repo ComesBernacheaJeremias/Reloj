@@ -54,6 +54,7 @@ import com.example.reloj.alarmas.domain.MyTimePicker
 import com.example.reloj.alarmas.ui.ItemCard
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
+import com.example.reloj.categorias.domain.selectAlarmByCategory
 import com.example.reloj.categorias.ui.AllCategoriesCard
 import com.example.reloj.ui.theme.RelojTheme
 
@@ -176,8 +177,8 @@ fun MiUI(
     val cartas = cartasViewModel.cartas
     val alarmas by alarmViewModel.obtenerAlarmas().observeAsState(emptyList())
     val categorias by categoriesViewModel.obtenerCategorias().observeAsState(emptyList())
-    Log.i("Corcho", alarmas.toString())
     var categorySelected by remember { mutableStateOf<Categories?>(null) }
+    var allCategorySelected by remember { mutableStateOf(true) }
 
 
 
@@ -188,42 +189,83 @@ fun MiUI(
     Column {
         LazyRow {
             item {
-                AllCategoriesCard()
+                AllCategoriesCard(allCategorySelected = { selectedCategory ->
+                    allCategorySelected = selectedCategory
+                })
                 Spacer(modifier = Modifier.width(4.dp))
             }
             items(categorias) { categorias ->
-                CategoriesCard(categoriesViewModel, categorias, onCategorySelected = { selectedCategory ->
+                CategoriesCard(categoriesViewModel, alarmViewModel, categorias, onCategorySelected = { selectedCategory ->
                     categorySelected = selectedCategory
+                    allCategorySelected = false
                 })
                 Spacer(modifier = Modifier.width(4.dp))
             }
             item { AddCategories(categoriesViewModel) }
 
         }
-        if (categorySelected != null){
-            //CODIGOO
-        }
+        if (categorySelected != null && allCategorySelected == false){
+            //CODIGOO...acá deberia ir la funcion que busque las alarmas con categorias = categorySelected (tengo que modificar el Dao del ROOM)
+            //Tambien debo corroborar que el state de la categoria sea true
+            Log.i("CorchoC", "la categoria esta seleccionada ${categorySelected}")
+            //selectAlarmByCategory(alarmViewModel, categoriesViewModel, categorySelected!!)
+             val alarmByCategories by alarmViewModel.obtenerPorCategorias(categorySelected!!).observeAsState(emptyList())
 
-        Box(
-            modifier = Modifier
-                .weight(1f) // Ocupa toda la pantalla
-                .padding(16.dp) // Agrega un poco de espacio alrededor
+            Box(
+                modifier = Modifier
+                    .weight(1f) // Ocupa toda la pantalla
+                    .padding(16.dp) // Agrega un poco de espacio alrededor
 
-        ) {
-            Column {
-                LazyColumn(modifier = Modifier
-                    .weight(1f)) {
-                    items(alarmas) { alarmas ->
-                        ItemCard(alarmViewModel, item =alarmas) }
-                    item {
-                        Spacer(modifier = Modifier.height(4.dp))
+            ) {
+                Column {
+                    LazyColumn(modifier = Modifier
+                        .weight(1f)) {
+                        items(alarmByCategories) { alarmas ->
+                            ItemCard(alarmViewModel, item =alarmas) }
+                        item {
+                            Spacer(modifier = Modifier.height(4.dp))
+                        }
+                    }
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .background(Color.Red)){
+                        Text(text = "oliwis")
                     }
                 }
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-                    .background(Color.Red)){
-                    Text(text = "oliwis")
+            }
+
+
+
+        }else {
+            Log.i("CorchoC", "la categoria esta DESseleccionada${categorySelected}")
+
+            Box(
+                modifier = Modifier
+                    .weight(1f) // Ocupa toda la pantalla
+                    .padding(16.dp) // Agrega un poco de espacio alrededor
+
+            ) {
+                Column {
+                    LazyColumn(
+                        modifier = Modifier
+                            .weight(1f)
+                    ) {
+                        items(alarmas) { alarmas ->
+                            ItemCard(alarmViewModel, item = alarmas)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(4.dp))
+                        }
+                    }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                            .background(Color.Red)
+                    ) {
+                        Text(text = "oliwis")
+                    }
                 }
             }
         }

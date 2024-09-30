@@ -8,6 +8,7 @@ import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
+import com.example.reloj.alarmas.data.Alarm
 import kotlinx.coroutines.flow.Flow
 
 @Entity(tableName = "categories_table")
@@ -23,6 +24,10 @@ interface CategoriesDao {
 
     @Query("SELECT * FROM categories_table")
     fun getAllCategories(): Flow<List<Categories>>
+
+    @Query("SELECT * FROM categories_table WHERE state = 1")
+    fun getCategoryActivate(): Flow<List<Categories>>
+    //Busca categorias por state
 
 
 

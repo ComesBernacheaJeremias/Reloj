@@ -26,12 +26,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.reloj.alarmas.data.Alarm
+import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
 
 
 @Composable
-fun CategoriesCard(categoriesViewModel: CategoriesViewModel, categories: Categories, onCategorySelected: (Categories) -> Unit) {
+fun CategoriesCard(categoriesViewModel: CategoriesViewModel,alarmaViewModel: AlarmaViewModel, categories: Categories, onCategorySelected: (Categories) -> Unit) {
 
 
     Card(
@@ -75,6 +77,8 @@ fun CategoriesCard(categoriesViewModel: CategoriesViewModel, categories: Categor
                     )
                     if (checked) {
                         categoriesViewModel.actualizarCategorias(Categories(categories.categoria, true))
+                       val alarma =  alarmaViewModel.obtenerPorCategorias(categories)
+                        alarmaViewModel.actualizarAlarma(alarma)
                     }else{  categoriesViewModel.actualizarCategorias(Categories(categories.categoria, false))}
 
                 }

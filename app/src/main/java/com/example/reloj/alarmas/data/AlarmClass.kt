@@ -38,6 +38,15 @@ interface AlarmDao {
     fun getAllAlarms(): Flow<List<Alarm>> // Devuelve todas las alarmas como un LiveData para observar cambios
     //Puede ser Flow<List<Alarm>>
 
+    @Query("SELECT * FROM alarms WHERE categoria = :horaCategory")
+    fun getHoraAlarmsByCategory(horaCategory: Categories): Flow<List<Alarm>>
+    //Busca alarma por categorias
+
+    @Query("SELECT state FROM alarms")
+    fun getStateAlarms(): Flow<List<Alarm>>
+    //Busca alarma por estado
+
+
     @Query("SELECT hora FROM alarms ORDER BY hora ASC")
     fun getHoraAlarms(): Flow<List<Int>>
     @Query("SELECT minutos FROM alarms ORDER BY minutos ASC")
