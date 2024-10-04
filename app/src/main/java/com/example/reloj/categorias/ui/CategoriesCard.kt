@@ -1,6 +1,7 @@
 package com.example.reloj.categorias.ui
 
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,8 +29,12 @@ import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun CategoriesCard(categoriesViewModel: CategoriesViewModel,alarmaViewModel: AlarmaViewModel, categories: Categories, onCategorySelected: (Categories) -> Unit) {
 
@@ -72,9 +79,25 @@ fun CategoriesCard(categoriesViewModel: CategoriesViewModel,alarmaViewModel: Ala
 
                     )
                     if (checked) {
+                        val alarmasSeleccionadas by alarmaViewModel.obtenerPorCategorias(categories).observeAsState(emptyList())
+                        val nuevoEstado = true
                         categoriesViewModel.actualizarCategorias(Categories(categories.categoria, true))
-                       val alarma =  alarmaViewModel.obtenerPorCategorias(categories)
-                        alarmaViewModel.actualizarAlarma(alarma)
+                      // val alarma =  alarmaViewModel.obtenerPorCategorias(categories)
+                        //alarmaViewModel.actualizarListaDeAlarmas(alarmasSeleccionadas)
+
+                            alarmasSeleccionadas.forEach { alarma ->
+                                // Cambiar el estado de cada alarma
+                                //alarma.state = true
+                                alarma.state = true
+
+                                // Actualizar la alarma en la base de datos
+                                alarmaViewModel.actualizarAlarma(alarma)
+                                //Alarm(alarma.id, alarma.hora, alarma.minutos, state = true, alarma.categoria)
+                            Log.i("actualiz", "coroutine${alarma}, ${alarma.state}")
+                            }
+                            Log.i("actualiz", "alarmaSeleccionada${alarmasSeleccionadas}")
+
+
                     }else{  categoriesViewModel.actualizarCategorias(Categories(categories.categoria, false))}
 
                 }

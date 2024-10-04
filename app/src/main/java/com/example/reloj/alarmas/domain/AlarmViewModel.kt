@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.data.AlarmDao
 import com.example.reloj.categorias.data.Categories
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -31,6 +32,11 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
         val alarmByCategory:LiveData<List<Alarm>> =  dao.getHoraAlarmsByCategory(horaCategory).asLiveData()
         return alarmByCategory
     }
+    /*fun actualizarListaDeAlarmas(alarm:List<Alarm>){
+        viewModelScope.launch {
+            dao.updateByCategory(alarm)
+        }
+    }*/
 
     fun obtenerHora(): LiveData<List<Int>> {
         val hora: LiveData<List<Int>> = dao.getHoraAlarms().asLiveData()
@@ -40,9 +46,10 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
 
 
         fun actualizarAlarma(alarm: Alarm) {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 dao.update(alarm)
             }
+            //agregue el dispatchers.IO
         }
 
     fun eliminarAlarma(alarm: Alarm) {

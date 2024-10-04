@@ -42,10 +42,10 @@ interface AlarmDao {
     fun getHoraAlarmsByCategory(horaCategory: Categories): Flow<List<Alarm>>
     //Busca alarma por categorias
 
-    @Query("SELECT state FROM alarms")
+    /*@Query("SELECT state FROM alarms")
     fun getStateAlarms(): Flow<List<Alarm>>
     //Busca alarma por estado
-
+*/
 
     @Query("SELECT hora FROM alarms ORDER BY hora ASC")
     fun getHoraAlarms(): Flow<List<Int>>
@@ -59,7 +59,9 @@ interface AlarmDao {
 
     @Update
     suspend fun update(alarm: Alarm)
-
+    /*@Update("UPDATE alarms SET state = :nuevoState WHERE categoria = :alarm")
+    suspend fun updateByCategory(nuevoState: Int = 1, alarm: List<Alarm>)
+*/
 
     @Delete
     suspend fun delete(alarm: Alarm)  // Función para eliminar una alarma específica de la base de datos

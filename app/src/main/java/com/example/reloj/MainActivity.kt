@@ -54,7 +54,7 @@ import com.example.reloj.alarmas.domain.MyTimePicker
 import com.example.reloj.alarmas.ui.ItemCard
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
-import com.example.reloj.categorias.domain.selectAlarmByCategory
+//import com.example.reloj.categorias.domain.selectAlarmByCategory
 import com.example.reloj.categorias.ui.AllCategoriesCard
 import com.example.reloj.ui.theme.RelojTheme
 
