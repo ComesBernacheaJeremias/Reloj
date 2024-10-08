@@ -164,7 +164,7 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
 fun Activado(viewModel: AlarmaViewModel, hora:Alarm){
     Log.i("Corcho", "entro en activado. viewmodel = ${viewModel}....hora = ${hora}")
     viewModel.actualizarAlarma(hora)
-    SetAlarm(hora)
+    SetAlarm(viewModel, hora)
 
 
 }

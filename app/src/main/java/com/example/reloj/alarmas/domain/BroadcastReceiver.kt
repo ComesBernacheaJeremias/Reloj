@@ -8,6 +8,7 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.media.Ringtone
 import android.media.RingtoneManager
+import android.os.PowerManager
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.material3.Text
@@ -21,8 +22,10 @@ class AlarmReceiver : BroadcastReceiver() {
     companion object {
         private var ringtone: Ringtone? = null
 
+
         fun stopAlarm() {
             ringtone?.stop()
+
         }
     }
 
@@ -31,6 +34,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // Acción que ocurre cuando la alarma se dispara
+
+
         //el BOOT_COMPLETED es para que la alarma no se pierda si se reinicia el dispositivo
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
             // Set the alarm here.

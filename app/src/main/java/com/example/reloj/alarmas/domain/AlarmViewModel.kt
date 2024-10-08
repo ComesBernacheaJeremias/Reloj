@@ -39,6 +39,12 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
             dao.updateByCategory(alarm)
         }
     }*/
+    fun obtenerPorEstado(horaCategory: String): LiveData<List<Alarm>> {
+        val alarmByState: LiveData<List<Alarm>> =
+            dao.getHoraAlarmsByStateTrue(horaCategory).asLiveData()
+        return alarmByState
+    }
+
 
     fun obtenerHora(): LiveData<List<Int>> {
         val hora: LiveData<List<Int>> = dao.getHoraAlarms().asLiveData()

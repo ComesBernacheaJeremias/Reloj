@@ -42,6 +42,9 @@ interface AlarmDao {
     fun getHoraAlarmsByCategory(horaCategory: String): Flow<List<Alarm>>
     //Busca alarma por categorias
 
+    @Query("SELECT * FROM alarms WHERE categoria = :horaCategory & state = 1")
+    fun getHoraAlarmsByStateTrue(horaCategory: String): Flow<List<Alarm>>
+
 
     @Query("SELECT hora FROM alarms ORDER BY hora ASC")
     fun getHoraAlarms(): Flow<List<Int>>

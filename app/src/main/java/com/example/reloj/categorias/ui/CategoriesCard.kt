@@ -27,11 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.domain.AlarmaViewModel
+import com.example.reloj.alarmas.domain.ProgramarAlarmas
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -91,6 +90,8 @@ fun CategoriesCard(
                                 true
                             )
                         )
+                        val alarmasParaActivar by alarmaViewModel.obtenerPorEstado(categories.categoria).observeAsState(emptyList())
+                        ProgramarAlarmas(alarmasParaActivar)
                     } else {
                         categoriesViewModel.actualizarCategorias(
                             Categories(
@@ -103,6 +104,7 @@ fun CategoriesCard(
                     if (categories.state) {
                         alarmaViewModel.actualizarAlarmaPorCategoria(categories.categoria, true)
                         Log.i("actualiz", "actualizo a true")
+
                     } else {
                         alarmaViewModel.actualizarAlarmaPorCategoria(
                             categories.categoria,
@@ -110,6 +112,7 @@ fun CategoriesCard(
                         )
                         Log.i("actualiz", "NO actualizo")
                     }
+                    Log.i("actualiz", categories.toString())
 
                 }
             }
