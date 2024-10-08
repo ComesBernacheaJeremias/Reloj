@@ -58,7 +58,7 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                     }
 
                 }
-                Box(modifier = Modifier.align(Alignment.CenterVertically)) {
+               /* Box(modifier = Modifier.align(Alignment.CenterVertically)) {
                     // Estado de la alarma, inicialmente configurado a false
                     val activarAlarma = remember { mutableStateOf(item.state) }
 
@@ -99,10 +99,10 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                             }
                         }
                     )
-                }
+                }*/
 
 
-                /*  Box(modifier = Modifier.align(Alignment.CenterVertically)) {
+                  Box(modifier = Modifier.align(Alignment.CenterVertically)) {
                       val activarAlarma = remember {
                           mutableStateOf(false)
                       }
@@ -152,7 +152,7 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
 
 
                       )
-                  }*/
+                  }
 
 
                 }
