@@ -89,7 +89,8 @@ fun MyTimePicker(viewModel: AlarmaViewModel, categoriesViewModel: CategoriesView
                                 hora = state.hour,
                                 minutos = state.minute,
                                 state = true,
-                                categoria = categorySelected!!
+                                categoria = categorySelected!!.categoria
+                                //Acá elijo el nombre de la categoria
                             )
                         )}
 

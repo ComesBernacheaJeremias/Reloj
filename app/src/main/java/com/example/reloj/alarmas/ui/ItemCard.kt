@@ -40,7 +40,7 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
             .padding(8.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
-                    onLongPress = {showDialog = true}
+                    onLongPress = { showDialog = true }
                 )
             }
     ) {
@@ -52,38 +52,114 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                         Text(text = "ID: ${item.id}")
                         Text(text = "Nombre: ${item.hora}")
                         Text(text = "Descripción: ${item.minutos}")
-                        Text(text = "Categoria: ${item.categoria.categoria}")
+                        Text(text = "Categoria: ${item.categoria}")
+                        Text(text = "Estado: ${item.state}")
 
                     }
 
                 }
-
                 Box(modifier = Modifier.align(Alignment.CenterVertically)) {
-                    val checkedState = remember { mutableStateOf(item.state) }
-                    val checked = checkedState.value
-                    Switch(
-                        checked = checked,
-                        onCheckedChange = {
-                            checkedState.value = it
-                            item.state = true
+                    // Estado de la alarma, inicialmente configurado a false
+                    val activarAlarma = remember { mutableStateOf(item.state) }
 
+                    if (activarAlarma.value) {
+                        Activado(viewModel, item)
+                    }
+
+                    // Switch que controla el estado de la alarma
+                    Switch(
+                        checked = activarAlarma.value,  // Usa activarAlarma para manejar el estado visible del Switch
+                        onCheckedChange = { isChecked ->  // Recibe el nuevo estado del Switch
+                            activarAlarma.value = isChecked  // Actualiza el estado del Switch
+
+                            // Log y actualizaciones dependiendo del estado de la alarma
+                            if (isChecked) {
+                                Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos} está activada")
+                                viewModel.actualizarAlarma(
+                                    Alarm(
+                                        id = item.id,
+                                        hora = item.hora,
+                                        minutos = item.minutos,
+                                        state = true,
+                                        categoria = item.categoria
+                                    )
+                                )
+                            } else {
+                                Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos} está desactivada")
+                                viewModel.actualizarAlarma(
+                                    Alarm(
+                                        id = item.id,
+                                        hora = item.hora,
+                                        minutos = item.minutos,
+                                        state = false,
+                                        categoria = item.categoria
+                                    )
+                                )
+                                Desactivado(viewModel, item)
+                            }
                         }
                     )
-                    if (checked) {
-                        Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos} esta activada")
-                        Log.i("Corcho", "la hora esta ${item.state}")
-                        Activado(viewModel, item)
+                }
 
 
-                    } else {
-                        Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos}  esta Desactivada ${item}...${item.state}:)")
-                        Desactivado(viewModel, item)
-                    }
+                /*  Box(modifier = Modifier.align(Alignment.CenterVertically)) {
+                      val activarAlarma = remember {
+                          mutableStateOf(false)
+                      }
+                      if (activarAlarma.value) {
+                          Activado(viewModel, item)
+                      }
+                      Switch(
+                          checked = item.state,
+                          onCheckedChange = {
+                              if (item.state) {
+                                  Log.i(
+                                      "Corcho",
+                                      "La alarma ${item.hora} : ${item.minutos} esta activada"
+                                  )
+                                  Log.i("Corcho", "la hora esta ${item.state}")
+                                  viewModel.actualizarAlarma(
+                                      Alarm(
+                                          id = item.id,
+                                          hora = item.hora,
+                                          minutos = item.minutos,
+                                          state = false,
+                                          categoria = item.categoria
+                                      )
+                                  )
+                                  activarAlarma.value = true
+
+
+                              } else {
+                                  item.state = true
+                                  activarAlarma.value = false
+                                  viewModel.actualizarAlarma(
+                                      Alarm(
+                                          id = item.id,
+                                          hora = item.hora,
+                                          minutos = item.minutos,
+                                          state = true,
+                                          categoria = item.categoria
+                                      )
+                                  )
+                                  Log.i(
+                                      "Corcho",
+                                      "La alarma ${item.hora} : ${item.minutos}  esta Desactivada ${item}...${item.state}:)"
+                                  )
+                                  Desactivado(viewModel, item)
+                              }
+                          }
+
+
+                      )
+                  }*/
+
+
                 }
             }
         }
     }
-}
+
 @Composable
 fun Activado(viewModel: AlarmaViewModel, hora:Alarm){
     Log.i("Corcho", "entro en activado. viewmodel = ${viewModel}....hora = ${hora}")

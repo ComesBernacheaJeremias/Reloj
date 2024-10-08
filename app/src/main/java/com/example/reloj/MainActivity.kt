@@ -209,7 +209,7 @@ fun MiUI(
             //Tambien debo corroborar que el state de la categoria sea true
             Log.i("CorchoC", "la categoria esta seleccionada ${categorySelected}")
             //selectAlarmByCategory(alarmViewModel, categoriesViewModel, categorySelected!!)
-             val alarmByCategories by alarmViewModel.obtenerPorCategorias(categorySelected!!).observeAsState(emptyList())
+             val alarmByCategories by alarmViewModel.obtenerPorCategorias(categorySelected!!.categoria).observeAsState(emptyList())
 
             Box(
                 modifier = Modifier
@@ -262,9 +262,9 @@ fun MiUI(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(150.dp)
-                            .background(Color.Red)
+                            .background(Color.Gray)
                     ) {
-                        Text(text = "oliwis")
+
                     }
                 }
             }

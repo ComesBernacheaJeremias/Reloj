@@ -36,7 +36,12 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun CategoriesCard(categoriesViewModel: CategoriesViewModel,alarmaViewModel: AlarmaViewModel, categories: Categories, onCategorySelected: (Categories) -> Unit) {
+fun CategoriesCard(
+    categoriesViewModel: CategoriesViewModel,
+    alarmaViewModel: AlarmaViewModel,
+    categories: Categories,
+    onCategorySelected: (Categories) -> Unit
+) {
 
 
     Card(
@@ -66,7 +71,7 @@ fun CategoriesCard(categoriesViewModel: CategoriesViewModel,alarmaViewModel: Ala
                     )
                 }
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    val checkedState = remember { mutableStateOf(false) }
+                    val checkedState = remember { mutableStateOf(categories.state) }
                     val checked = checkedState.value
 
                     Switch(
@@ -79,26 +84,32 @@ fun CategoriesCard(categoriesViewModel: CategoriesViewModel,alarmaViewModel: Ala
 
                     )
                     if (checked) {
-                        val alarmasSeleccionadas by alarmaViewModel.obtenerPorCategorias(categories).observeAsState(emptyList())
-                        val nuevoEstado = true
-                        categoriesViewModel.actualizarCategorias(Categories(categories.categoria, true))
-                      // val alarma =  alarmaViewModel.obtenerPorCategorias(categories)
-                        //alarmaViewModel.actualizarListaDeAlarmas(alarmasSeleccionadas)
-
-                            alarmasSeleccionadas.forEach { alarma ->
-                                // Cambiar el estado de cada alarma
-                                //alarma.state = true
-                                alarma.state = true
-
-                                // Actualizar la alarma en la base de datos
-                                alarmaViewModel.actualizarAlarma(alarma)
-                                //Alarm(alarma.id, alarma.hora, alarma.minutos, state = true, alarma.categoria)
-                            Log.i("actualiz", "coroutine${alarma}, ${alarma.state}")
-                            }
-                            Log.i("actualiz", "alarmaSeleccionada${alarmasSeleccionadas}")
-
-
-                    }else{  categoriesViewModel.actualizarCategorias(Categories(categories.categoria, false))}
+                        //esto actualiza el state de la categoria
+                        categoriesViewModel.actualizarCategorias(
+                            Categories(
+                                categories.categoria,
+                                true
+                            )
+                        )
+                    } else {
+                        categoriesViewModel.actualizarCategorias(
+                            Categories(
+                                categories.categoria,
+                                false
+                            )
+                        )
+                    }
+                    //codigo que actualiza las alarmas segun el state de la categoria
+                    if (categories.state) {
+                        alarmaViewModel.actualizarAlarmaPorCategoria(categories.categoria, true)
+                        Log.i("actualiz", "actualizo a true")
+                    } else {
+                        alarmaViewModel.actualizarAlarmaPorCategoria(
+                            categories.categoria,
+                            false
+                        )
+                        Log.i("actualiz", "NO actualizo")
+                    }
 
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.reloj.alarmas.domain
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,20 +17,21 @@ import kotlinx.coroutines.launch
 class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
 
 
-
     fun insertarAlarmas(alarm: Alarm) {
         viewModelScope.launch {
             dao.insert(alarm)
         }
     }
 
-    fun obtenerAlarmas(): LiveData<List<Alarm>>{
+    fun obtenerAlarmas(): LiveData<List<Alarm>> {
         val todasLasAlarmas: LiveData<List<Alarm>> = dao.getAllAlarms().asLiveData()
 
         return todasLasAlarmas
     }
-    fun obtenerPorCategorias(horaCategory: Categories): LiveData<List<Alarm>>{
-        val alarmByCategory:LiveData<List<Alarm>> =  dao.getHoraAlarmsByCategory(horaCategory).asLiveData()
+
+    fun obtenerPorCategorias(horaCategory: String): LiveData<List<Alarm>> {
+        val alarmByCategory: LiveData<List<Alarm>> =
+            dao.getHoraAlarmsByCategory(horaCategory).asLiveData()
         return alarmByCategory
     }
     /*fun actualizarListaDeAlarmas(alarm:List<Alarm>){
@@ -44,13 +46,20 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
     }
 
 
-
-        fun actualizarAlarma(alarm: Alarm) {
-            viewModelScope.launch(Dispatchers.IO) {
-                dao.update(alarm)
-            }
-            //agregue el dispatchers.IO
+    fun actualizarAlarma(alarm: Alarm) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.update(alarm)
         }
+        //agregue el dispatchers.IO
+    }
+    fun actualizarAlarmaPorCategoria(categoria: String, nuevoEstado: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filasActualizadas = dao.actualizarEstadoAlarmaPorCategoria(categoria, nuevoEstado)
+            Log.i("actualiz", "Filas actualizadas: $filasActualizadas")
+        }
+    }
+
+
 
     fun eliminarAlarma(alarm: Alarm) {
         viewModelScope.launch {

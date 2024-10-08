@@ -23,7 +23,7 @@ data class Alarm(
     @ColumnInfo(name = "hora") val hora: Int,       // Hora en formato 24 horas
     @ColumnInfo(name = "minutos") val minutos: Int,     // Minutes
     @ColumnInfo(name = "state") var state: Boolean, //es para saber si esta o no activado
-    @ColumnInfo(name = "categoria") val categoria: Categories//es para saber la categoria
+    @ColumnInfo(name = "categoria") val categoria: String//es para saber la categoria
 )
 
 
@@ -39,29 +39,21 @@ interface AlarmDao {
     //Puede ser Flow<List<Alarm>>
 
     @Query("SELECT * FROM alarms WHERE categoria = :horaCategory")
-    fun getHoraAlarmsByCategory(horaCategory: Categories): Flow<List<Alarm>>
+    fun getHoraAlarmsByCategory(horaCategory: String): Flow<List<Alarm>>
     //Busca alarma por categorias
 
-    /*@Query("SELECT state FROM alarms")
-    fun getStateAlarms(): Flow<List<Alarm>>
-    //Busca alarma por estado
-*/
 
     @Query("SELECT hora FROM alarms ORDER BY hora ASC")
     fun getHoraAlarms(): Flow<List<Int>>
     @Query("SELECT minutos FROM alarms ORDER BY minutos ASC")
     fun getMinutosAlarms(): Flow<Int>
-   /* @Query("SELECT * FROM alarms ORDER BY state ASC")
-    fun getStateAlarms(): Flow<Alarm>*/
-
-    @Query("SELECT * FROM alarms WHERE state==1") //para acceder a los que tengan estado activado
-    fun getUsersStateTrue(): List<Alarm>
 
     @Update
     suspend fun update(alarm: Alarm)
-    /*@Update("UPDATE alarms SET state = :nuevoState WHERE categoria = :alarm")
-    suspend fun updateByCategory(nuevoState: Int = 1, alarm: List<Alarm>)
-*/
+
+    @Query("UPDATE alarms SET state = :nuevoEstado WHERE categoria = :categoria")
+    suspend fun actualizarEstadoAlarmaPorCategoria(categoria: String, nuevoEstado: Boolean): Int
+
 
     @Delete
     suspend fun delete(alarm: Alarm)  // Función para eliminar una alarma específica de la base de datos
