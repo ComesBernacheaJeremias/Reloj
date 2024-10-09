@@ -72,5 +72,12 @@ class AlarmaViewModel(private val dao: AlarmDao) : ViewModel() {
             dao.delete(alarm)
         }
     }
+
+    fun eliminarAlarmaPorCategoria(alarmas: List<Alarm>) {
+        viewModelScope.launch {
+            dao.deleteByCategory(alarmas)
+        }
+    }
+
 }
 

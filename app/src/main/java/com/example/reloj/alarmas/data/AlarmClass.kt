@@ -60,5 +60,8 @@ interface AlarmDao {
 
     @Delete
     suspend fun delete(alarm: Alarm)  // Función para eliminar una alarma específica de la base de datos
+
+    @Delete
+    suspend fun deleteByCategory(alarms: List<Alarm>)
 }
 

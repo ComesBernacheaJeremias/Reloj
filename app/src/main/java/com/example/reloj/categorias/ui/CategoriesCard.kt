@@ -4,6 +4,7 @@ package com.example.reloj.categorias.ui
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,8 +19,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,10 +30,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.alarmas.domain.AlarmaViewModel
+import com.example.reloj.alarmas.domain.AlertDialogCategoryDelete
+import com.example.reloj.alarmas.domain.AlertDialogDelete
+import com.example.reloj.alarmas.domain.CancelarAlarma
 import com.example.reloj.alarmas.domain.ProgramarAlarmas
+import com.example.reloj.alarmas.domain.SetAlarm
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
-
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -41,6 +47,10 @@ fun CategoriesCard(
     categories: Categories,
     onCategorySelected: (Categories) -> Unit
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    if (showDialog){
+        AlertDialogCategoryDelete(categoriesViewModel, alarmaViewModel, categories)
+    }
 
 
     Card(
@@ -50,7 +60,12 @@ fun CategoriesCard(
             .clickable {
                 //que pasa cuando hago click
                 onCategorySelected(categories)
-            },
+            }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = { showDialog = true }
+                )
+            }
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -90,8 +105,33 @@ fun CategoriesCard(
                                 true
                             )
                         )
-                        val alarmasParaActivar by alarmaViewModel.obtenerPorEstado(categories.categoria).observeAsState(emptyList())
-                        ProgramarAlarmas(alarmasParaActivar)
+
+                        //codigo que actualiza las alarmas segun el state de la categoria (Creo que no sirve para nada)
+                        if (categories.state) {
+                            alarmaViewModel.actualizarAlarmaPorCategoria(categories.categoria, true)
+                            Log.i("actualiz", "actualizo a true")
+
+                        } else {
+                            alarmaViewModel.actualizarAlarmaPorCategoria(
+                                categories.categoria,
+                                false
+                            )
+                            Log.i("actualiz", "NO actualizo")
+                        }
+
+
+                        val alarmasParaActivar by alarmaViewModel.obtenerPorCategorias(categories.categoria)
+                            .observeAsState(emptyList())
+                        // Iteramos sobre la lista de alarmas
+                        if (alarmasParaActivar.isNotEmpty()) {
+                            for (alarm in alarmasParaActivar) {
+                                Log.i("Corcho", "entro en el for")
+                                SetAlarm(alarm)
+                            }
+                        } else {
+                            Log.i("Corcho", "No hay alarmas para activar")
+                        }
+                        //ProgramarAlarmas(alarmasParaActivar)
                     } else {
                         categoriesViewModel.actualizarCategorias(
                             Categories(
@@ -99,20 +139,29 @@ fun CategoriesCard(
                                 false
                             )
                         )
-                    }
-                    //codigo que actualiza las alarmas segun el state de la categoria
-                    if (categories.state) {
-                        alarmaViewModel.actualizarAlarmaPorCategoria(categories.categoria, true)
-                        Log.i("actualiz", "actualizo a true")
-
-                    } else {
+                        //codigo que actualiza las alarmas segun el state de la categoria (Creo que no sirve para nada)
                         alarmaViewModel.actualizarAlarmaPorCategoria(
                             categories.categoria,
                             false
                         )
                         Log.i("actualiz", "NO actualizo")
+
+                        val alarmasParaActivar by alarmaViewModel.obtenerPorCategorias(
+                            categories.categoria
+                        ).observeAsState(emptyList())
+                        if (alarmasParaActivar.isNotEmpty()) {
+                            for (alarm in alarmasParaActivar) {
+                                Log.i("Corcho", "entro en el for para cancelar")
+                                CancelarAlarma(alarm.id)
+                            }
+
+                        } else {
+                            Log.i("Corcho", "La lista de alarmas para cancelar esta bacia")
+                        }
+
+
                     }
-                    Log.i("actualiz", categories.toString())
+
 
                 }
             }

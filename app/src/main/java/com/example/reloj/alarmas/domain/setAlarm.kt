@@ -15,56 +15,101 @@ import java.util.Calendar
 
 @SuppressLint("ScheduleExactAlarm")
 @Composable
-fun SetAlarm(viewModel: AlarmaViewModel, alarm: Alarm) {
+fun SetAlarm(alarm: Alarm) {
     Log.i("Corcho", "entro en SetAlarm ${alarm.hora} ${alarm.minutos}")
-
-    val context = LocalContext.current
-
-
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-   // val alarmasActivadas by viewModel.obtenerPorEstado().observeAsState(emptyList())
-
-
-    val hora = alarm.hora
-    val minutos = alarm.minutos
-    Log.i("Corcho", " ${hora}, ${minutos}")
-
-    // Creamos un Intent para el BroadcastReceiver que manejará la alarma
-    val intent = Intent(context, AlarmReceiver::class.java)
-    intent.putExtra("hora", hora)
-    intent.putExtra("minutos", minutos)
-
-
-    // Creamos un PendingIntent que se activará cuando la alarma suene
-    val pendingIntent =
-        PendingIntent.getBroadcast(context, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-
-    // Configuramos la hora exacta a la que la alarma debe dispararse
-    val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, hora) // Establecemos la hora seleccionada
-        set(Calendar.MINUTE, minutos) // Establecemos el minuto seleccionado
-        set(Calendar.SECOND, 0) // Aseguramos que los segundos estén en 0
-    }
-    Log.i("Corcho", "la alarma sonara  ${hora}, ${minutos}")
-    if (calendar.timeInMillis <= System.currentTimeMillis()) {
-        // Si la hora ya pasó, programamos la alarma para el día siguiente
-        calendar.add(Calendar.DAY_OF_YEAR, 1)
-        Log.i("Corcho_Alarma", "la hora ya paso, pasa para el dia siguiente $hora : $minutos")
-    }
-
     if (alarm.state) {
-        // Programamos la alarma para que se dispare en la hora exacta
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-        Log.i("Corcho", "se guardo la alarma $calendar")
-    }else{
-        Log.i("Corcho", "NO SE PUDO ACTIVAR")
-        Log.i("Corcho", "tengo que mostrar calendar: ${calendar}, ${hora}, ${minutos}")
 
-    }
+        val context = LocalContext.current
+
+
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        // val alarmasActivadas by viewModel.obtenerPorEstado().observeAsState(emptyList())
+
+
+        val hora = alarm.hora
+        val minutos = alarm.minutos
+        Log.i("Corcho", " ${hora}, ${minutos}")
+
+        // Creamos un Intent para el BroadcastReceiver que manejará la alarma
+        val intent = Intent(context, AlarmReceiver::class.java)
+        intent.putExtra("hora", hora)
+        intent.putExtra("minutos", minutos)
+
+
+        // Creamos un PendingIntent que se activará cuando la alarma suene
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                alarm.id,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+        // Configuramos la hora exacta a la que la alarma debe dispararse
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hora) // Establecemos la hora seleccionada
+            set(Calendar.MINUTE, minutos) // Establecemos el minuto seleccionado
+            set(Calendar.SECOND, 0) // Aseguramos que los segundos estén en 0
+        }
+        Log.i("Corcho", "la alarma sonara  ${hora}, ${minutos}")
+        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+            // Si la hora ya pasó, programamos la alarma para el día siguiente
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+            Log.i("Corcho_Alarma", "la hora ya paso, pasa para el dia siguiente $hora : $minutos")
+        }
+
+        if (alarm.state) {
+            // Programamos la alarma para que se dispare en la hora exacta
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+            Log.i("Corcho", "se guardo la alarma $calendar")
+        } else {
+            Log.i("Corcho", "NO SE PUDO ACTIVAR")
+            Log.i("Corcho", "tengo que mostrar calendar: ${calendar}, ${hora}, ${minutos}")
+
+        }
+    }else{Log.i("Corcho", "EL ESTADO DE LAS ALARMAS ES FALSE")}
 }
 
 @Composable
+fun CancelarAlarma(alarmId: Int) {
+    Log.i("cancel", "entro en cancelar")
+    val context = LocalContext.current
+
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val intent = Intent(context, AlarmReceiver::class.java).apply {
+        putExtra("id", alarmId)
+    }
+    val pendingIntent = PendingIntent.getBroadcast(
+        context,
+        alarmId,
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+    alarmManager.cancel(pendingIntent) // Cancela la alarma
+    Log.i("cancel", "Alarma cancelada con id: $alarmId")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@Composable
 fun ProgramarAlarmas(alarmList: List<Alarm>) {
+    Log.i("AlarmManager", "entro en setalarm")
     val context = LocalContext.current
 
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

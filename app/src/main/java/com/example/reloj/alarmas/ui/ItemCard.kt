@@ -50,8 +50,8 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         Text(text = "ID: ${item.id}")
-                        Text(text = "Nombre: ${item.hora}")
-                        Text(text = "Descripción: ${item.minutos}")
+                        Text(text = "Hora: ${item.hora}")
+                        Text(text = "Minutos: ${item.minutos}")
                         Text(text = "Categoria: ${item.categoria}")
                         Text(text = "Estado: ${item.state}")
 
@@ -146,7 +146,7 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                                       "Corcho",
                                       "La alarma ${item.hora} : ${item.minutos}  esta Desactivada ${item}...${item.state}:)"
                                   )
-                                  Desactivado(viewModel, item)
+                                    Desactivado(viewModel, item)
                               }
                           }
 
@@ -164,7 +164,7 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
 fun Activado(viewModel: AlarmaViewModel, hora:Alarm){
     Log.i("Corcho", "entro en activado. viewmodel = ${viewModel}....hora = ${hora}")
     viewModel.actualizarAlarma(hora)
-    SetAlarm(viewModel, hora)
+
 
 
 }
