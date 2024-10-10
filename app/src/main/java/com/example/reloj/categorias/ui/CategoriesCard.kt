@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +40,10 @@ import com.example.reloj.alarmas.domain.ProgramarAlarmas
 import com.example.reloj.alarmas.domain.SetAlarm
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
+import com.example.reloj.ui.theme.Apagado
+import com.example.reloj.ui.theme.Fondo3
+import com.example.reloj.ui.theme.PrimarioCoral
+import com.example.reloj.ui.theme.SecundarioFuerte
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -54,15 +61,14 @@ fun CategoriesCard(
 
 
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = PrimarioCoral),
         modifier = Modifier
             .height(80.dp)
             .width(150.dp)
-            .clickable {
-                //que pasa cuando hago click
-                onCategorySelected(categories)
-            }
             .pointerInput(Unit) {
                 detectTapGestures(
+                    onTap = {onCategorySelected(categories)},
                     onLongPress = { showDialog = true }
                 )
             }
@@ -94,7 +100,12 @@ fun CategoriesCard(
                             checkedState.value = it
 
 
-                        }
+                        },colors = SwitchDefaults.colors(
+                            checkedThumbColor = SecundarioFuerte, // Color del thumb cuando está encendido
+                            checkedTrackColor = Fondo3, // Color del track cuando está encendido
+                            uncheckedThumbColor = Apagado, // Color del thumb cuando está apagado
+                            uncheckedTrackColor = Fondo3 // Color del track cuando está apagado
+                        )
 
                     )
                     if (checked) {

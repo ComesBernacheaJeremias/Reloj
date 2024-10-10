@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.AlertDialogDoc
+import com.example.reloj.ui.theme.PrimarioCoral
 
 @Composable
 fun AllCategoriesCard(allCategorySelected: (Boolean) -> Unit){
@@ -23,7 +25,10 @@ fun AllCategoriesCard(allCategorySelected: (Boolean) -> Unit){
         .width(150.dp)
         .clickable {
             allCategorySelected(true)
-        }
+        },
+        colors = CardDefaults.cardColors(
+            containerColor = PrimarioCoral
+        )
 
 
     ) {

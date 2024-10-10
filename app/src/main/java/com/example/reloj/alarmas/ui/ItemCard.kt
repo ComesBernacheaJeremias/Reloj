@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +28,10 @@ import com.example.reloj.alarmas.domain.AlarmaViewModel
 import com.example.reloj.alarmas.domain.AlertDialogDelete
 import com.example.reloj.alarmas.domain.SetAlarm
 import com.example.reloj.categorias.data.Categories
+import com.example.reloj.ui.theme.Apagado
+import com.example.reloj.ui.theme.Fondo3
+import com.example.reloj.ui.theme.PrimarioCoral
+import com.example.reloj.ui.theme.SecundarioFuerte
 
 
 @Composable
@@ -42,7 +48,10 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                 detectTapGestures(
                     onLongPress = { showDialog = true }
                 )
-            }
+            },
+        colors = CardDefaults.cardColors(
+            containerColor = PrimarioCoral
+        )
     ) {
         Box {
             Row (modifier = Modifier.fillMaxWidth()) {
@@ -58,49 +67,6 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                     }
 
                 }
-               /* Box(modifier = Modifier.align(Alignment.CenterVertically)) {
-                    // Estado de la alarma, inicialmente configurado a false
-                    val activarAlarma = remember { mutableStateOf(item.state) }
-
-                    if (activarAlarma.value) {
-                        Activado(viewModel, item)
-                    }
-
-                    // Switch que controla el estado de la alarma
-                    Switch(
-                        checked = activarAlarma.value,  // Usa activarAlarma para manejar el estado visible del Switch
-                        onCheckedChange = { isChecked ->  // Recibe el nuevo estado del Switch
-                            activarAlarma.value = isChecked  // Actualiza el estado del Switch
-
-                            // Log y actualizaciones dependiendo del estado de la alarma
-                            if (isChecked) {
-                                Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos} está activada")
-                                viewModel.actualizarAlarma(
-                                    Alarm(
-                                        id = item.id,
-                                        hora = item.hora,
-                                        minutos = item.minutos,
-                                        state = true,
-                                        categoria = item.categoria
-                                    )
-                                )
-                            } else {
-                                Log.i("Corcho", "La alarma ${item.hora} : ${item.minutos} está desactivada")
-                                viewModel.actualizarAlarma(
-                                    Alarm(
-                                        id = item.id,
-                                        hora = item.hora,
-                                        minutos = item.minutos,
-                                        state = false,
-                                        categoria = item.categoria
-                                    )
-                                )
-                                Desactivado(viewModel, item)
-                            }
-                        }
-                    )
-                }*/
-
 
                   Box(modifier = Modifier.align(Alignment.CenterVertically)) {
                       val activarAlarma = remember {
@@ -148,7 +114,12 @@ fun ItemCard(viewModel: AlarmaViewModel,item: Alarm) {
                                   )
                                     Desactivado(viewModel, item)
                               }
-                          }
+                          },colors = SwitchDefaults.colors(
+                              checkedThumbColor = SecundarioFuerte, // Color del thumb cuando está encendido
+                              checkedTrackColor = Fondo3, // Color del track cuando está encendido
+                              uncheckedThumbColor = Apagado, // Color del thumb cuando está apagado
+                              uncheckedTrackColor = Fondo3 // Color del track cuando está apagado
+                          ),
 
 
                       )

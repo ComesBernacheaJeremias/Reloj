@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -61,6 +62,8 @@ import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
 //import com.example.reloj.categorias.domain.selectAlarmByCategory
 import com.example.reloj.categorias.ui.AllCategoriesCard
+import com.example.reloj.ui.theme.Fondo
+import com.example.reloj.ui.theme.PrimarioCoral
 import com.example.reloj.ui.theme.RelojTheme
 
 
@@ -146,13 +149,15 @@ fun ViewContainer(alarmViewModel: AlarmaViewModel, categoriesViewModel: Categori
 
             FloatingActionButton(
                 onClick = { showTimePicker = true },
+                containerColor = PrimarioCoral, // Color de fondo del FAB
+                contentColor = Color.White, // Color del ícono o contenido dentro del FAB
                 modifier = Modifier
                     .height(150.dp)
                     .width(150.dp)
                     .zIndex(0f)
 
             ) {
-                Icon(Icons.Filled.Favorite, contentDescription = "Floating action button")
+                Icon(Icons.Filled.AddCircle, contentDescription = "Floating action button")
             }
 
 
@@ -218,11 +223,10 @@ fun MiUI(
             item { AddCategories(categoriesViewModel) }
 
         }
-        if (categorySelected != null && allCategorySelected == false){
+        if (categorySelected != null && !allCategorySelected){
             //CODIGOO...acá deberia ir la funcion que busque las alarmas con categorias = categorySelected (tengo que modificar el Dao del ROOM)
             //Tambien debo corroborar que el state de la categoria sea true
             Log.i("CorchoC", "la categoria esta seleccionada ${categorySelected}")
-            //selectAlarmByCategory(alarmViewModel, categoriesViewModel, categorySelected!!)
              val alarmByCategories by alarmViewModel.obtenerPorCategorias(categorySelected!!.categoria).observeAsState(emptyList())
 
             Box(
@@ -243,8 +247,7 @@ fun MiUI(
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .height(150.dp)
-                        .background(Color.Red)){
-                        Text(text = "oliwis")
+                        .background(Fondo)){
                     }
                 }
             }
@@ -276,7 +279,7 @@ fun MiUI(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(150.dp)
-                            .background(Color.Gray)
+                            .background(Fondo)
                     ) {
 
                     }
