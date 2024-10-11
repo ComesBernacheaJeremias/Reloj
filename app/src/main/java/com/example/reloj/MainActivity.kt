@@ -2,7 +2,10 @@ package com.example.reloj
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -65,11 +68,17 @@ import com.example.reloj.categorias.ui.AllCategoriesCard
 import com.example.reloj.ui.theme.Fondo
 import com.example.reloj.ui.theme.PrimarioCoral
 import com.example.reloj.ui.theme.RelojTheme
-
-
+import android.provider.Settings
+import android.widget.Toast
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
 
 
 class MainActivity : ComponentActivity() {
+
+    companion object {
+        const val REQUEST_CODE_OVERLAY_PERMISSION = 1001 // Definir la constante aquí
+    }
 
     private val db by lazy {
         Room.databaseBuilder(applicationContext, AlarmDatabase::class.java, "alarm_database")
@@ -110,6 +119,25 @@ class MainActivity : ComponentActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1001)
+            }
+            if (!Settings.canDrawOverlays(this)) {
+
+                // Si el permiso no está habilitado, mostramos un mensaje y redirigimos al usuario a la configuración
+                Toast.makeText(
+                    this,
+                    "Se necesita permiso para mostrar la alarma sobre otras apps.",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                // Redirige al usuario a la pantalla de ajustes donde puede habilitar el permiso
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:${this.packageName}")
+                )
+                // Inicia la actividad con el intent para que el usuario habilite el permiso
+                (this as Activity).startActivityForResult(
+                    intent,
+                    REQUEST_CODE_OVERLAY_PERMISSION)
             }
         }
 

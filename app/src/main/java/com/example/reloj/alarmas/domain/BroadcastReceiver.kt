@@ -52,7 +52,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
 
         // Iniciar una nueva actividad para mostrar la pantalla de alarma
-        val alarmIntent = Intent(context, AlarmActivity::class.java)
+        val alarmIntent = Intent(context, ActivityAlarmSong::class.java)
         alarmIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK // Importante para iniciar una actividad desde fuera de una actividad
         context.startActivity(alarmIntent)
 
