@@ -21,6 +21,7 @@ import com.example.reloj.alarmas.data.Alarm
 import com.example.reloj.categorias.data.Categories
 import com.example.reloj.categorias.domain.CategoriesViewModel
 import com.example.reloj.categorias.ui.SelectCategory
+import com.example.reloj.ui.theme.Fondo
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +35,86 @@ fun MyTimePicker(viewModel: AlarmaViewModel, categoriesViewModel: CategoriesView
     var categorySelected by remember { mutableStateOf<Categories?>(null) }
 
 
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.5f))
+            .zIndex(1f),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // TimePicker implementation
+            TimePicker(
+                state = state,
+                modifier = Modifier.padding(15.dp),
+                colors = TimePickerDefaults.colors(),
+                layoutType = TimePickerDefaults.layoutType()
+            )
 
+            // Mostrar la hora seleccionada
+            Text(
+                text = "Hora seleccionada H:M = ${state.hour} : ${state.minute}",
+                modifier = Modifier.padding(vertical = 8.dp), color = Color.White
+            )
+            time = "${state.hour} : ${state.minute}"
+
+            // Mostrar las categorías debajo del TimePicker
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(8.dp)
+                    .background(Fondo)
+            ) {
+                items(categorias) { categories ->
+                    SelectCategory(
+                        categories = categories,
+                        onCategorySelected = { selectedCategory ->
+                            categorySelected = selectedCategory
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+            }
+
+            // Add buttons to close the TimePicker
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Button(onClick = onDismiss) {
+                    Text("Cerrar")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(onClick = {
+                    if (categorySelected != null) {
+                        viewModel.insertarAlarmas(
+                            Alarm(
+                                hora = state.hour,
+                                minutos = state.minute,
+                                state = true,
+                                categoria = categorySelected!!.categoria
+                            )
+                        )
+                    }
+                    onDismiss()
+                }) {
+                    Text("Aceptar")
+                }
+            }
+        }
+    }
+
+
+
+/*
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -105,7 +185,7 @@ fun MyTimePicker(viewModel: AlarmaViewModel, categoriesViewModel: CategoriesView
         }
 
 
-    }
+    }*/
 }
 
 

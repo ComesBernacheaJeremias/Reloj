@@ -72,6 +72,7 @@ import android.provider.Settings
 import android.widget.Toast
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
+import com.example.reloj.ui.theme.Transparente
 
 
 class MainActivity : ComponentActivity() {
@@ -260,7 +261,7 @@ fun MiUI(
 
 
 
-    Column {
+    Column(modifier = Modifier.fillMaxSize(). padding(4.dp)) {
         LazyRow {
             item {
                 AllCategoriesCard(allCategorySelected = { selectedCategory ->
