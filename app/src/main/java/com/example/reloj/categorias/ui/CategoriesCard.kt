@@ -180,6 +180,21 @@ fun CategoriesCard(
     }
 
 }
+@Composable
+fun CancelarAlarmasCategoriaEliminada(alarmaViewModel: AlarmaViewModel, categories: Categories){
+    val alarmasParaActivar by alarmaViewModel.obtenerPorCategorias(
+        categories.categoria
+    ).observeAsState(emptyList())
+    if (alarmasParaActivar.isNotEmpty()) {
+        for (alarm in alarmasParaActivar) {
+            Log.i("Corcho", "entro en el for para cancelar")
+            CancelarAlarma(alarm.id)
+        }
+
+    } else {
+        Log.i("Corcho", "La lista de alarmas estaba bacia")
+    }
+}
 
 
 @Preview(showBackground = true)
