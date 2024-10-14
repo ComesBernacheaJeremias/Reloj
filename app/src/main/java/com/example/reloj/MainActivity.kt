@@ -78,6 +78,7 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         const val REQUEST_CODE_OVERLAY_PERMISSION = 1001 // Definir la constante aquí
+        const val REQUEST_CODE_POST_NOTIFICATIONS = 1002
     }
 
     private val db by lazy {
@@ -114,6 +115,30 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Solicita el permiso de notificaciones en Android 13+
+        fun requestNotificationsPermission() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQUEST_CODE_POST_NOTIFICATIONS)
+                }
+            }
+        }
+
+        // Solicita el permiso de superposición de ventanas
+        fun requestOverlayPermission() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+                (this as Activity).startActivityForResult(
+                    intent,
+                    REQUEST_CODE_OVERLAY_PERMISSION)
+            }
+        }
+
+        // Solicitar permisos
+        requestNotificationsPermission()
+        requestOverlayPermission()
+
 
         // Solicitar el permiso para notificaciones en Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -162,6 +187,8 @@ class MainActivity : ComponentActivity() {
 
             }
         }
+
+
     }
 }
 

@@ -8,9 +8,12 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.media.Ringtone
 import android.media.RingtoneManager
+import android.os.Build
 import android.os.PowerManager
 import android.util.Log
 import android.widget.Toast
+import android.provider.Settings
+import android.net.Uri
 import androidx.compose.material3.Text
 import androidx.core.app.NotificationCompat
 import com.example.reloj.R
@@ -21,10 +24,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
         private var ringtone: Ringtone? = null
+        var wakeLock: PowerManager.WakeLock? = null
+
 
 
         fun stopAlarm() {
             ringtone?.stop()
+            wakeLock?.release() // Liberar el WakeLock cuando se apague la alarma
+            wakeLock = null // Evitar que se intente liberar dos veces
 
         }
     }
@@ -52,9 +59,29 @@ class AlarmReceiver : BroadcastReceiver() {
 
 
         // Iniciar una nueva actividad para mostrar la pantalla de alarma
-        val alarmIntent = Intent(context, ActivityAlarmSong::class.java)
-        alarmIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK // Importante para iniciar una actividad desde fuera de una actividad
-        context.startActivity(alarmIntent)
+        /*val alarmIntent = Intent(context, ActivityAlarmSong::class.java)
+        alarmIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Importante para iniciar una actividad desde fuera de una actividad
+        context.startActivity(alarmIntent)*/
+
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyApp::AlarmWakelockTag")
+        wakeLock.acquire(10*60*1000L /*10 minutes*/)
+
+        // Verificar si tiene el permiso de superposición de ventanas
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
+            val overlayIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${context.packageName}"))
+            overlayIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(overlayIntent)
+        } else {
+            val alarmIntent = Intent(context, ActivityAlarmSong::class.java).apply {
+                flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or  // Importante para iniciar una actividad desde fuera de una actividad
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                            Intent.FLAG_ACTIVITY_SINGLE_TOP // Evita múltiples instancias de la actividad
+            }
+            context.startActivity(alarmIntent)
+        }
+
 
     }
 }

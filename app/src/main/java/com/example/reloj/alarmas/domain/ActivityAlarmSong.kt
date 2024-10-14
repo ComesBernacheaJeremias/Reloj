@@ -26,10 +26,11 @@ class ActivityAlarmSong  : ComponentActivity() {
         } else {
             // Para versiones anteriores de Android, utiliza los flags antiguos
             window.addFlags(
-                android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                        /*or
                         android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                         android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
-                        android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                        android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD*/
             )
         }
 

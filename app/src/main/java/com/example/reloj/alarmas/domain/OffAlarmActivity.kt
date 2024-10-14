@@ -78,7 +78,7 @@ fun AlarmScreen() {
             // Botón flotante para detener la alarma
             FloatingActionButton(
                 onClick = {
-                    AlarmReceiver.stopAlarm() // Detiene la alarma
+                    AlarmReceiver.stopAlarm() // Detiene la alarma y finaliza el WakeLock
                     (context as? Activity)?.finish() // Finaliza la actividad si es necesario
                 },
                 containerColor = SecundarioFuerte, // Cambia el color del botón
