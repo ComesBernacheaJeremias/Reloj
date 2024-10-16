@@ -31,6 +31,6 @@ Alarm Manager App es una aplicación de alarmas desarrollada en Kotlin que permi
 <img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Añadir.png" alt="Buscador" width="200"/>
 <img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Activado.png" alt="Delete" width="200"
 <img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Detener Alarma.png" alt="Menu" width="200"/>
-<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Eliminar Alarma.png" alt="Ayuda" width="200"/>
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Eliminar alarma.png" alt="Ayuda" width="200"/>
 <img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Eliminar Categoria.png" alt="Salir" width="200"/>
 </div>
