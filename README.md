@@ -3,7 +3,7 @@
 
 Alarm Manager App es una aplicación de alarmas desarrollada en Kotlin que permite organizar y gestionar alarmas de una manera más eficiente a través de la asignación de categorías. A diferencia de las alarmas convencionales, esta aplicación permite activar o desactivar todas las alarmas pertenecientes a una misma categoría al mismo tiempo, ofreciendo mayor comodidad y sencillez al momento de gestionar tus alarmas.
 
-###Características principales:
+### Características principales:
 
 - **Gestión por categorías:** Asigna categorías a tus alarmas y controla todas las de una misma categoría de forma conjunta.
 - **Base de datos Room:** Utiliza Room para almacenar y gestionar tus alarmas de manera local, asegurando persistencia de datos incluso después de cerrar la aplicación.
@@ -14,7 +14,7 @@ Alarm Manager App es una aplicación de alarmas desarrollada en Kotlin que permi
 - **Material3:** Implementa las directrices de Material3, proporcionando una interfaz moderna, atractiva y coherente con las últimas pautas de diseño de Android.   
       
    
-###Tecnologías utilizadas
+### Tecnologías utilizadas
 
 Kotlin
 Jetpack Compose
