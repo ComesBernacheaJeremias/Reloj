@@ -25,12 +25,12 @@ Alarm Manager App es una aplicación de alarmas desarrollada en Kotlin que permi
 
 
 <div style="display: inline-block;">
-<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Inicio.png"/>
-<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Inicio.png"/>
-<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Inicio.png"/>
 <img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Inicio.png" alt="Buscador" width="200"/>
-<img src="https://github.com/ComesBernacheaJeremias/ProductApp/blob/master/Capturas%20app/Imagen%20de%20WhatsApp%202024-08-07%20a%20las%2010.52.44_58a0a5d3.jpg?raw=true" alt="Delete" width="200"
-<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Inicio.png" alt="Menu" width="200"/>
-<img src="https://github.com/user-attachments/assets/ee05881f-f072-4fea-b647-5083fd7ceb1d" alt="Ayuda" width="200"/>
-<img src="https://github.com/ComesBernacheaJeremias/ProductApp/blob/master/Capturas%20app/IMG-20240807-WA0004.jpg?raw=true" alt="Salir" width="200"/>
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Agregar.png" alt="Buscador" width="200"/>
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Dialogo Agregar.png" alt="Buscador" width="200"/>
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Añadir.png" alt="Buscador" width="200"/>
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Activado.png" alt="Delete" width="200"
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Detener Alarma.png" alt="Menu" width="200"/>
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Eliminar Alarma.png" alt="Ayuda" width="200"/>
+<img src="https://github.com/ComesBernacheaJeremias/Reloj/blob/master/Capturas%20App/Eliminar Categoria.png" alt="Salir" width="200"/>
 </div>
